@@ -1,0 +1,144 @@
+/* ==========================================
+   HERO
+========================================== */
+
+.hero {
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p,
+.page-title p {
+    color: var(--gray);
+    line-height: 1.6;
+}
+
+/* ==========================================
+   PAGE TITLE
+========================================== */
+
+.page-title {
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    font-size: 34px;
+    margin: 8px 0;
+}
+
+.result-label {
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* ==========================================
+   CARD
+========================================== */
+
+.card {
+    background: var(--black-light);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.card h2 {
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    margin: 25px 0 15px;
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #101010;
+    color: var(--white);
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--orange);
+}
+
+/* ==========================================
+   BOTÕES
+========================================== */
+
+button {
+    font-family: inherit;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-add {
+    border: none;
+    border-radius: 8px;
+    padding: 13px 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-primary {
+    width: 100%;
+    background: var(--orange);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--orange-light);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    margin-top: 20px;
+    background: #2a2a2a;
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: #333;
+}
+
+.btn-add {
+    background: rgba(255, 122, 0, 0.12);
+    color: var(--orange);
+    border: 1px solid rgba(255, 122, 0, 0.3);
+    margin-bottom: 15px;
+}
+
+.btn-add:hover {
+    background: rgba(255, 122, 0, 0.2);
+}
+
+.save-btn {
+    margin-top: 5px;
+}

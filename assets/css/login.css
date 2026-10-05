@@ -1,0 +1,84 @@
+/* ==========================================
+   LOGIN
+========================================== */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 24px;
+}
+
+.login-card {
+    width: min(420px, 100%);
+    background: var(--black-light);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px 28px;
+    animation: aparecer 0.25s ease;
+}
+
+.login-card.erro { animation: tremer 0.3s; }
+
+@keyframes tremer {
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.login-brand { margin-bottom: 26px; }
+.login-card h1 { font-size: 24px; margin-bottom: 6px; }
+
+.login-sub {
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 48px; }
+
+.toggle-senha {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 46px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--gray);
+    cursor: pointer;
+}
+
+.toggle-senha:hover { color: var(--white); }
+
+.login-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    color: var(--gray);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-check input { width: auto; accent-color: var(--orange); }
+
+.login-erro {
+    margin-bottom: 18px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 80, 80, 0.35);
+    border-radius: 8px;
+    background: rgba(255, 80, 80, 0.1);
+    color: #ff7777;
+    font-size: 14px;
+}
+
+.login-card .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.login-footer { color: var(--gray); font-size: 12px; }

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendetta WEB</title>
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/calculadora.css">
+    <link rel="stylesheet" href="assets/css/encomendas.css">
+    <link rel="stylesheet" href="assets/css/perimetros.css">
+    <link rel="stylesheet" href="assets/css/horario.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <script src="assets/js/auth.js"></script>
+    <script>protegerPagina();</script>
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <a class="sidebar-brand" href="#" onclick="mostrarPagina('calculadora', document.querySelector('[data-page=calculadora]')); return false;">
+                <span class="brand-name">VENDETTA</span>
+                <span class="brand-subtitle">WEB</span>
+            </a>
+            <div class="sidebar-section-label">MENU PRINCIPAL</div>
+            <nav class="sidebar-menu" aria-label="Menu principal">
+                <button class="menu-btn active" data-page="calculadora" onclick="mostrarPagina('calculadora', this)">
+                    <span class="menu-icon">⌂</span><span>Calculadora</span>
+                </button>
+                <button class="menu-btn" data-page="encomendas" onclick="mostrarPagina('encomendas', this)">
+                    <span class="menu-icon">▣</span><span>Encomendas</span>
+                </button>
+                <button class="menu-btn" data-page="perimetros" onclick="mostrarPagina('perimetros', this)">
+                    <span class="menu-icon">◎</span><span>Perímetros</span>
+                </button>
+                <button class="menu-btn" data-page="horario" onclick="mostrarPagina('horario', this)">
+                    <span class="menu-icon">◷</span><span>Horário de Pista</span>
+                </button>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="sidebar-user">Olá, <strong id="usuarioLogado">Usuário</strong></div>
+                <button type="button" class="sidebar-logout" onclick="logout()">↪ <span>Sair</span></button>
+            </div>
+        </aside>
+        <div class="app-main">
+            <header class="mobile-header">
+                <span>VENDETTA <small>WEB</small></span>
+            </header>
+    <main class="container">
+        <!-- ======================================
+             CALCULADORA
+        ======================================= -->
+        <section id="pagina-calculadora" class="pagina">
+            <div class="hero">
+                <h1>
+                    Calculadora de Craft
+                </h1>
+                <p>
+                    Escolha um item, informe a quantidade
+                    e veja todos os materiais necessários.
+                </p>
+            </div>
+            <!-- FORMULÁRIO -->
+            <div class="card">
+                <h2>
+                    Produzir item
+                </h2>
+                <div class="form-group">
+                    <label for="item">
+                        Item
+                    </label>
+                    <select id="item">
+                        <option value="">
+                            Selecione um item
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">
+                        Quantidade
+                    </label>
+                    <input type="number" id="quantity" min="1" value="1">
+                </div>
+                <button type="button" class="btn-primary" onclick="calcularCraft()">
+                    Calcular materiais
+                </button>
+            </div>
+            <!-- ==================================
+                 RESULTADO
+            =================================== -->
+            <section id="resultado" class="resultado hidden">
+                <div class="result-header">
+                    <div>
+                        <span class="result-label">
+                            RESULTADO
+                        </span>
+                        <h2 id="resultadoTitulo">
+                            Materiais necessários
+                        </h2>
+                    </div>
+                </div>
+                <!-- MATERIAIS DIRETOS E INTERMEDIÁRIOS -->
+                <div id="listaMateriais" class="materials"></div>
+                <!-- ==================================
+                     TOTAL POR MATERIAL
+                =================================== -->
+                <div id="totalMateriaisContainer" class="total-materiais">
+                    <h3>
+                        📊 Total Geral de Matéria-Prima
+                    </h3>
+                    <div id="listaTotalMateriais"></div>
+                </div>
+            </section>
+            <!-- ==================================
+                 VALORES
+            =================================== -->
+            <section id="resultadoValores" class="resultado valores hidden">
+                <div class="result-header">
+                    <div>
+                        <span class="result-label">
+                            VALORES
+                        </span>
+                        <h2>
+                            💰 Valores do Produto
+                        </h2>
+                    </div>
+                </div>
+                <div id="listaValores"></div>
+            </section>
+            <!-- LIMPAR -->
+            <button type="button" class="btn-secondary" onclick="limparCalculo()">
+                Limpar cálculo
+            </button>
+        </section>
+<!-- ENCOMENDAS  -->
+        <section id="pagina-encomendas" class="pagina hidden">
+            <div class="page-header">
+                <div>
+                    <span class="section-label">
+                        ENCOMENDAS
+                    </span>
+                    <h1>
+                        Gerenciamento de Encomendas
+                    </h1>
+                    <p>
+                        Crie e acompanhe as encomendas dos produtos.
+                    </p>
+                </div>
+                <button type="button" class="btn-primary" onclick="abrirModalEncomenda()">
+                    + Nova Encomenda
+                </button>
+            </div>
+            <!-- ESTATISTICAS -->
+            <div class="encomendas-stats">
+                <div class="stat-card">
+                    <span class="stat-icon">
+                        📦
+                    </span>
+                    <div>
+                        <small>
+                            Total
+                        </small>
+                        <strong id="totalEncomendas">
+                            0
+                        </strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">
+                        🟠
+                    </span>
+                    <div>
+                        <small>
+                            Pendentes
+                        </small>
+                        <strong id="encomendasPendentes">
+                            0
+                        </strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">
+                        🟢
+                    </span>
+                    <div>
+                        <small>
+                            Concluídas
+                        </small>
+                        <strong id="encomendasConcluidas">
+                            0
+                        </strong>
+                    </div>
+                </div>
+            </div>
+            <!-- FILTROS  -->
+            <div class="card encomendas-filtros">
+                <div class="input-group">
+                    <label for="pesquisaEncomenda">
+                        Pesquisar
+                    </label>
+                    <input type="text" id="pesquisaEncomenda" placeholder="Produto ou cliente..."
+                        oninput="mostrarEncomendas()">
+                </div>
+                <div class="input-group">
+                    <label for="filtroProdutoEncomenda">
+                        Produto
+                    </label>
+                    <select id="filtroProdutoEncomenda" onchange="mostrarEncomendas()">
+                        <option value="">
+                            Todos os produtos
+                        </option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="filtroStatusEncomenda">
+                        Status
+                    </label>
+                    <select id="filtroStatusEncomenda" onchange="mostrarEncomendas()">
+                        <option value="">
+                            Todos
+                        </option>
+                        <option value="Pendente">
+                            Pendentes
+                        </option>
+                        <option value="Concluída">
+                            Concluídas
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <!-- LISTA -->
+            <div id="listaEncomendas" class="encomendas-grid"></div>
+            <!-- VAZIO  -->
+            <div id="encomendasVazio" class="card empty-state hidden">
+                <span>
+                    📦
+                </span>
+                <h3>
+                    Nenhuma encomenda encontrada
+                </h3>
+                <p>
+                    Crie uma nova encomenda para começar.
+                </p>
+            </div>
+            <!-- MODAL DE ENCOMENDAS -->
+            <div id="modalEncomenda" class="modal-overlay hidden">
+                <div class="modal-card">
+                    <!-- CABEÇALHO -->
+                    <div class="modal-header">
+                        <div>
+                            <span class="section-label">
+                                ENCOMENDAS
+                            </span>
+                            <h2 id="modalEncomendaTitulo">
+                                Nova Encomenda
+                            </h2>
+                        </div>
+                        <button type="button" class="modal-close" onclick="fecharModalEncomenda()">
+                            ×
+                        </button>
+                    </div>
+                    <!-- FORMULÁRIO -->
+                    <form id="formEncomenda" onsubmit="salvarEncomenda(event)">
+                        <input type="hidden" id="encomendaId">
+                        <!-- CAMPOS -->
+                        <div class="form-grid">
+                            <!-- PRODUTO -->
+                            <div class="input-group">
+                                <label for="encomendaProduto">
+                                    Produto
+                                </label>
+                                <select id="encomendaProduto" onchange="atualizarValorEncomenda()" required>
+                                    <option value="">
+                                        Selecione um produto
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- QUANTIDADE -->
+                            <div class="input-group">
+                                <label for="encomendaQuantidade">
+                                    Quantidade
+                                </label>
+                                <input type="number" id="encomendaQuantidade" min="1" value="1"
+                                    oninput="atualizarValorEncomenda()" required>
+                            </div>
+                            <!-- TIPO -->
+                            <div class="input-group">
+                                <label for="encomendaTipo">
+                                    Tipo de Cliente
+                                </label>
+                                <select id="encomendaTipo" onchange="atualizarValorEncomenda()" required>
+                                    <option value="CNPJ">
+                                        CNPJ
+                                    </option>
+                                    <option value="CPF">
+                                        CPF
+                                    </option>
+                                    <option value="Parceria">
+                                        Parceria
+                                    </option>
+                                    <option value="Aliado">
+                                        Aliado
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- CLIENTE -->
+                            <div class="input-group">
+                                <label for="encomendaCliente">
+                                    Cliente
+                                </label>
+                                <input type="text" id="encomendaCliente" placeholder="Nome do Cliente...">
+                            </div>
+                        </div>
+                        <!-- VALOR -->
+                        <div id="valorEncomendaPreview" class="valor-encomenda-preview">
+                            Selecione um produto
+                        </div>
+                        <!-- OBSERVAÇÕES -->
+                        <div class="input-group">
+                            <label for="encomendaObservacoes">
+                                Observações
+                            </label>
+                            <textarea id="encomendaObservacoes" rows="4"
+                                placeholder="Observações da encomenda..."></textarea>
+                        </div>
+                        <!-- BOTÕES -->
+                        <div class="modal-actions">
+                            <button type="button" class="btn-secondary" onclick="fecharModalEncomenda()">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                Salvar Encomenda
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================
+             PERÍMETROS
+        ======================================= -->
+
+        <section id="pagina-perimetros" class="pagina hidden">
+
+            <div class="page-title">
+                <span class="result-label">PERÍMETROS</span>
+                <h1>Perímetros</h1>
+                <p>Envie as fotos dos perímetros e escolha qual deseja visualizar.</p>
+            </div>
+
+            <!-- VISUALIZAR -->
+            <div class="card">
+                <h2>Visualizar perímetro</h2>
+
+                <div class="form-group">
+                    <label for="perimetroSelect">Perímetro</label>
+                    <select id="perimetroSelect" onchange="mostrarPerimetro()">
+                        <option value="">Selecione um perímetro</option>
+                    </select>
+                </div>
+
+                <div id="perimetroVazio" class="perimetro-vazio">
+                    Nenhum perímetro cadastrado ainda. Adicione uma foto abaixo.
+                </div>
+
+                <div id="perimetroViewer" class="perimetro-viewer hidden">
+                    <div class="perimetro-viewer-header">
+                        <div>
+                            <h3 id="perimetroNome"></h3>
+                            <small id="perimetroData"></small>
+                        </div>
+                        <div class="perimetro-actions">
+                            <button type="button" class="btn-editar-perimetro" onclick="abrirImagemPerimetro()">Ampliar</button>
+                            <button type="button" class="btn-editar-perimetro" onclick="renomearPerimetro()">Renomear</button>
+                            <button type="button" class="btn-excluir-perimetro" onclick="excluirPerimetro()">Excluir</button>
+                        </div>
+                    </div>
+
+                    <div class="perimetro-imagem-wrap">
+                        <img id="perimetroImagem" alt="" onclick="abrirImagemPerimetro()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADICIONAR -->
+            <div class="card">
+                <h2>Adicionar perímetro</h2>
+
+                <form id="formPerimetro" onsubmit="salvarPerimetro(event)">
+                    <div class="form-group">
+                        <label for="perimetroNovoNome">Nome</label>
+                        <input type="text" id="perimetroNovoNome" placeholder="Ex: Perímetro Norte" maxlength="60">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="perimetroArquivo">Foto</label>
+                        <label class="perimetro-upload" for="perimetroArquivo">
+                            <span class="perimetro-upload-botao">Escolher foto</span>
+                            <span id="perimetroArquivoNome" class="perimetro-upload-nome">Nenhum arquivo selecionado</span>
+                        </label>
+                        <input type="file" id="perimetroArquivo" accept="image/*" class="hidden" onchange="aoEscolherFotoPerimetro()">
+                        <img id="perimetroPreview" class="perimetro-preview hidden" alt="Pré-visualização">
+                    </div>
+
+                    <button type="submit" id="btnSalvarPerimetro" class="btn-primary">Salvar perímetro</button>
+                </form>
+            </div>
+
+            <!-- AMPLIAR -->
+            <div id="perimetroLightbox" class="perimetro-lightbox hidden" onclick="fecharImagemPerimetro()">
+                <button type="button" class="perimetro-lightbox-fechar" aria-label="Fechar" onclick="fecharImagemPerimetro()">×</button>
+                <img id="perimetroLightboxImg" alt="">
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             HORÁRIO DE PISTA
+        ======================================= -->
+
+        <section id="pagina-horario" class="pagina hidden">
+
+            <div class="page-title">
+                <span class="result-label">HORÁRIO DE PISTA</span>
+                <h1>Horário de Pista</h1>
+                <p>Informe o horário do jogo e descubra que horas será meia-noite no jogo.
+                    10 minutos de Brasília equivalem a 1 hora no jogo.</p>
+            </div>
+
+            <div class="card">
+                <h2>Calcular meia-noite</h2>
+
+                <form id="formHorario" onsubmit="calcularHorarioPista(event)">
+                    <div class="horario-campos">
+                        <div class="form-group">
+                            <label for="horarioJogo">Horário no jogo</label>
+                            <input type="time" id="horarioJogo" step="60" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="horarioReferencia">Visto em Brasília às (opcional)</label>
+                            <input type="time" id="horarioReferencia" step="60">
+                            <small class="horario-dica">Deixe em branco para usar o horário de agora.</small>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Calcular</button>
+                </form>
+            </div>
+
+            <div id="horarioResultado" class="card hidden">
+                <span class="result-label">PRÓXIMA MEIA-NOITE NO JOGO</span>
+                <div id="horarioMeiaNoite" class="horario-grande">--:--:--</div>
+                <div id="horarioMeiaNoiteDia" class="horario-dia"></div>
+
+                <div class="horario-stats">
+                    <div class="horario-stat">
+                        <span>Faltam (tempo real)</span>
+                        <strong id="horarioFaltam">--</strong>
+                    </div>
+                    <div class="horario-stat">
+                        <span>Horas de jogo até lá</span>
+                        <strong id="horarioFaltamJogo">--</strong>
+                    </div>
+                    <div class="horario-stat">
+                        <span>Agora no jogo (estimado)</span>
+                        <strong id="horarioAgoraJogo">--:--</strong>
+                    </div>
+                </div>
+
+                <h3 class="horario-subtitulo">Próximas meias-noites</h3>
+                <ul id="horarioLista" class="horario-lista"></ul>
+
+                <p id="horarioBase" class="horario-base"></p>
+
+                <button type="button" class="btn-secondary" onclick="limparHorarioPista()">Limpar</button>
+            </div>
+
+        </section>
+
+    </main>
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+    <footer class="app-footer">
+        <p>VENDETTA © 2026</p>
+    </footer>
+        </div><!-- /.app-main -->
+    </div><!-- /.app-layout -->
+    <script src="assets/js/dados.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/navegacao.js"></script>
+    <script src="assets/js/calculadora.js"></script>
+    <script src="assets/js/encomendas.js"></script>
+    <script src="assets/js/perimetros.js"></script>
+    <script src="assets/js/horario.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

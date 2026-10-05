@@ -1,0 +1,188 @@
+/* ==========================================
+   PERÍMETROS
+========================================== */
+#pagina-perimetros .card h2 {
+    margin-bottom: 20px;
+}
+
+/* Estado vazio */
+.perimetro-vazio {
+    padding: 22px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    background: #151515;
+    color: var(--gray);
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Visualização */
+.perimetro-viewer {
+    animation: aparecer 0.25s ease;
+}
+
+.perimetro-viewer-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.perimetro-viewer-header h3 {
+    margin: 0 0 4px;
+    color: var(--white);
+    font-size: 20px;
+}
+
+.perimetro-viewer-header small {
+    color: #777777;
+    font-size: 12px;
+}
+
+.perimetro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.perimetro-actions button {
+    padding: 9px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-editar-perimetro {
+    border: 1px solid #3c3c3c;
+    background: #252525;
+    color: var(--white);
+}
+
+.btn-editar-perimetro:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+.btn-excluir-perimetro {
+    border: 1px solid rgba(255, 70, 70, 0.25);
+    background: rgba(255, 70, 70, 0.08);
+    color: #ff6b6b;
+}
+
+.btn-excluir-perimetro:hover {
+    background: rgba(255, 70, 70, 0.15);
+}
+
+.perimetro-imagem-wrap {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #101010;
+}
+
+.perimetro-imagem-wrap img {
+    display: block;
+    max-width: 100%;
+    max-height: 75vh;
+    margin: 0 auto;
+    border-radius: 6px;
+    object-fit: contain;
+    cursor: zoom-in;
+}
+
+/* Envio da foto */
+.form-group label.perimetro-upload {
+    display: flex;
+    margin-bottom: 0;
+    font-size: inherit;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #101010;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.form-group label.perimetro-upload:hover {
+    border-color: var(--orange);
+}
+
+.perimetro-upload-botao {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    border-radius: 6px;
+    background: rgba(255, 122, 0, 0.12);
+    border: 1px solid rgba(255, 122, 0, 0.3);
+    color: var(--orange);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.perimetro-upload-nome {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--gray);
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.perimetro-preview {
+    display: block;
+    max-width: 100%;
+    max-height: 220px;
+    margin-top: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.card .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Imagem ampliada */
+.perimetro-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgb(0 0 0 / 88%);
+    cursor: zoom-out;
+}
+
+.perimetro-lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 50%);
+    object-fit: contain;
+}
+
+.perimetro-lightbox-fechar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #292929;
+    color: var(--white);
+    font-size: 26px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .perimetro-viewer-header {
+        flex-direction: column;
+    }
+}

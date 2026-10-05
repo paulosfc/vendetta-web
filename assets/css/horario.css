@@ -1,0 +1,126 @@
+/* ==========================================
+   HORÁRIO DE PISTA
+========================================== */
+#pagina-horario .card h2 {
+    margin-bottom: 20px;
+}
+
+.horario-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+#pagina-horario input[type="time"] {
+    color-scheme: dark;
+}
+
+.horario-dica {
+    display: block;
+    margin-top: 6px;
+    color: #777777;
+    font-size: 12px;
+}
+
+/* Resultado */
+#horarioResultado {
+    animation: aparecer 0.25s ease;
+}
+
+.horario-grande {
+    margin: 10px 0 4px;
+    color: var(--orange);
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.horario-dia {
+    margin-bottom: 24px;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.horario-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+    margin-bottom: 26px;
+}
+
+.horario-stat {
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #151515;
+}
+
+.horario-stat span {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.horario-stat strong {
+    color: var(--white);
+    font-size: 24px;
+    font-variant-numeric: tabular-nums;
+}
+
+.horario-subtitulo {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.horario-lista {
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+}
+
+.horario-lista li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.horario-lista li:last-child {
+    border-bottom: none;
+}
+
+.horario-lista li span {
+    color: var(--gray);
+}
+
+.horario-lista li strong {
+    color: var(--white);
+    font-variant-numeric: tabular-nums;
+}
+
+.horario-lista li:first-child strong {
+    color: var(--orange);
+}
+
+.horario-base {
+    margin-bottom: 18px;
+    color: #777777;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .horario-campos {
+        grid-template-columns: 1fr;
+    }
+
+    .horario-grande {
+        font-size: 40px;
+    }
+}

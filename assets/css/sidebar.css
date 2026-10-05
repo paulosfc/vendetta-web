@@ -1,0 +1,211 @@
+/* ==========================================
+   LAYOUT COM BARRA LATERAL
+========================================== */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.app-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-main .container {
+    flex: 1;
+    width: min(1100px, 92%);
+}
+
+.app-footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--gray);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+}
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+.sidebar {
+    position: sticky;
+    top: 0;
+    flex: 0 0 260px;
+    width: 260px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    background: var(--black-light);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+}
+
+.sidebar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+}
+
+.brand-name {
+    color: var(--orange);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 4px;
+}
+
+.brand-subtitle {
+    color: var(--gray);
+    font-size: 11px;
+    letter-spacing: 4px;
+}
+
+.sidebar-section-label {
+    margin: 0 12px 10px;
+    color: var(--gray);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sidebar .menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 15px;
+}
+
+.menu-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* ==========================================
+   USUÁRIO / SAIR
+========================================== */
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.sidebar-user {
+    margin-bottom: 12px;
+    padding: 0 6px;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.sidebar-user strong {
+    color: var(--white);
+}
+
+.sidebar-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #673333;
+    border-radius: 8px;
+    background: #3a2020;
+    color: #ff7777;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.sidebar-logout:hover {
+    background: #4a2626;
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+.sidebar-toggle,
+.sidebar-backdrop,
+.mobile-header {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1001;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-toggle {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--black-light);
+        color: var(--white);
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: block;
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
+
+    .sidebar-backdrop.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .mobile-header {
+        display: block;
+        padding: 20px 20px 20px 66px;
+        color: var(--orange);
+        font-size: 20px;
+        font-weight: 900;
+        letter-spacing: 3px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-header small {
+        color: var(--gray);
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+}

@@ -1,0 +1,672 @@
+/* =====================================================
+   ENCOMENDAS
+===================================================== */
+
+.encomendas-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* =====================================================
+   FILTROS
+===================================================== */
+
+.encomendas-filtros {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* =====================================================
+   GRID
+===================================================== */
+
+.encomendas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.encomenda-card {
+    background: #1b1b1b;
+    border: 1px solid #303030;
+    border-radius: 10px;
+    padding: 20px;
+    transition: 0.2s;
+}
+
+.encomenda-card:hover {
+    border-color: #4a4a4a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.encomenda-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.encomenda-card h3 {
+    margin: 0 0 5px;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.encomenda-id {
+    color: #777777;
+    font-size: 11px;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.encomenda-status {
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.encomenda-status.pendente {
+    color: #ff9d3d;
+    background: rgba(255, 122, 0, 0.10);
+    border: 1px solid rgba(255, 122, 0, 0.25);
+}
+
+.encomenda-status.concluida {
+    color: #6ee7a0;
+    background: rgba(110, 231, 160, 0.08);
+    border: 1px solid rgba(110, 231, 160, 0.20);
+}
+
+/* =====================================================
+   PRODUTO
+===================================================== */
+
+.encomenda-produto {
+    padding: 14px;
+    background: #151515;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+
+.encomenda-produto span {
+    display: block;
+    color: #888888;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.encomenda-produto strong {
+    color: #ff7a00;
+    font-size: 17px;
+}
+
+/* =====================================================
+   INFORMAÇÕES
+===================================================== */
+
+.encomenda-info {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding-top: 14px;
+    border-top: 1px solid #2d2d2d;
+}
+
+.encomenda-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.encomenda-info-row span:first-child {
+    color: #888888;
+}
+
+.encomenda-info-row span:last-child {
+    color: #dddddd;
+    text-align: right;
+}
+
+/* =====================================================
+   VALOR
+===================================================== */
+
+.encomenda-valor {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 7px;
+    background: rgba(255, 122, 0, 0.07);
+    border: 1px solid rgba(255, 122, 0, 0.18);
+}
+
+.encomenda-valor small {
+    display: block;
+    color: #888888;
+    margin-bottom: 3px;
+}
+
+.encomenda-valor strong {
+    color: #ff7a00;
+    font-size: 18px;
+}
+
+/* =====================================================
+   OBSERVAÇÕES
+===================================================== */
+
+.encomenda-observacoes {
+    margin-top: 14px;
+    padding: 10px;
+    background: #151515;
+    border-radius: 6px;
+    color: #999999;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* =====================================================
+   AÇÕES
+===================================================== */
+
+.encomenda-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 17px;
+}
+
+.encomenda-actions button {
+    border-radius: 6px;
+    padding: 9px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn-concluir-encomenda {
+    border: 1px solid rgba(110, 231, 160, 0.25);
+    background: rgba(110, 231, 160, 0.08);
+    color: #6ee7a0;
+}
+
+.btn-concluir-encomenda:hover {
+    background: rgba(110, 231, 160, 0.15);
+}
+
+.btn-reabrir-encomenda {
+    border: 1px solid rgba(255, 122, 0, 0.25);
+    background: rgba(255, 122, 0, 0.08);
+    color: #ff9d3d;
+}
+
+.btn-editar-encomenda {
+    border: 1px solid #3c3c3c;
+    background: #252525;
+    color: #ffffff;
+}
+
+.btn-editar-encomenda:hover {
+    border-color: #ff7a00;
+    color: #ff7a00;
+}
+
+.btn-excluir-encomenda {
+    border: 1px solid rgba(255, 70, 70, 0.25);
+    background: rgba(255, 70, 70, 0.08);
+    color: #ff6b6b;
+}
+
+.btn-excluir-encomenda:hover {
+    background: rgba(255, 70, 70, 0.15);
+}
+
+/* =====================================================
+   PREVIEW DO VALOR
+===================================================== */
+
+.valor-encomenda-preview {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 122, 0, 0.07);
+    border: 1px solid rgba(255, 122, 0, 0.20);
+    border-radius: 8px;
+    color: #bbbbbb;
+    line-height: 1.7;
+}
+
+.valor-encomenda-preview strong {
+    color: #ff7a00;
+    font-size: 20px;
+}
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 800px) {
+    .encomendas-stats {
+        grid-template-columns: 1fr;
+    }
+    .encomendas-filtros {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .encomenda-card {
+        padding: 16px;
+    }
+    .encomenda-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   ENCOMENDAS - LAYOUT E FORMATAÇÃO
+========================================= */
+
+#pagina-encomendas {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 0 40px;
+    color: #f5f5f5;
+    box-sizing: border-box;
+}
+
+#pagina-encomendas * {
+    box-sizing: border-box;
+}
+
+/* Cabeçalho */
+
+#pagina-encomendas .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+#pagina-encomendas .page-header h1 {
+    margin: 8px 0;
+    font-size: clamp(24px, 3vw, 34px);
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+#pagina-encomendas .page-header p {
+    margin: 0;
+    color: #b8b8b8;
+    line-height: 1.5;
+}
+
+#pagina-encomendas .section-label {
+    color: #ff7900;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Botões */
+#pagina-encomendas .btn-primary,
+#pagina-encomendas .btn-secondary,
+#pagina-encomendas .logout-btn {
+    min-height: 44px;
+    padding: 12px 20px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+#pagina-encomendas .btn-primary {
+    background: #ff7900;
+    color: #fff;
+    border: 1px solid #ff7900;
+}
+
+#pagina-encomendas .btn-primary:hover {
+    background: #e96e00;
+    transform: translateY(-1px);
+}
+
+#pagina-encomendas .btn-secondary {
+    background: #292929;
+    color: #fff;
+    border: 1px solid #414141;
+}
+
+#pagina-encomendas .logout-btn {
+    background: #3a2020;
+    color: #ff7777;
+    border: 1px solid #673333;
+}
+
+/* Estatísticas */
+
+#pagina-encomendas .encomendas-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+#pagina-encomendas .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 22px;
+    background: #1b1b1b;
+    border: 1px solid #333;
+    border-radius: 14px;
+}
+
+#pagina-encomendas .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #292929;
+    font-size: 22px;
+}
+
+#pagina-encomendas .stat-card small {
+    display: block;
+    margin-bottom: 5px;
+    color: #b5b5b5;
+    font-size: 13px;
+}
+
+#pagina-encomendas .stat-card strong {
+    display: block;
+    font-size: 25px;
+    line-height: 1.2;
+}
+
+/* Cartões */
+
+#pagina-encomendas .card {
+    background: #1b1b1b;
+    border: 1px solid #353535;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+/* Pesquisa e filtros */
+
+#pagina-encomendas .encomendas-filtros {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(180px, 1fr) minmax(160px, 1fr);
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+#pagina-encomendas .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+#pagina-encomendas .input-group label {
+    color: #eaeaea;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#pagina-encomendas input,
+#pagina-encomendas select,
+#pagina-encomendas textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    color: #f5f5f5;
+    background: #101010;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    outline: none;
+    font: inherit;
+}
+
+#pagina-encomendas input:focus,
+#pagina-encomendas select:focus,
+#pagina-encomendas textarea:focus {
+    border-color: #ff7900;
+    box-shadow: 0 0 0 2px rgb(255 121 0 / 15%);
+}
+
+#pagina-encomendas input::placeholder,
+#pagina-encomendas textarea::placeholder {
+    color: #888;
+}
+
+/* Lista de encomendas */
+
+#pagina-encomendas .encomendas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+#pagina-encomendas .encomenda-card {
+    min-width: 0;
+    padding: 20px;
+    background: #1b1b1b;
+    border: 1px solid #353535;
+    border-radius: 14px;
+}
+
+#pagina-encomendas .encomenda-card h3 {
+    margin: 0 0 12px;
+    overflow-wrap: anywhere;
+}
+
+#pagina-encomendas .encomenda-card p {
+    color: #c5c5c5;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* Estado vazio */
+
+#pagina-encomendas .empty-state {
+    text-align: center;
+    padding: 35px 20px;
+}
+
+#pagina-encomendas .empty-state > span {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 32px;
+}
+
+#pagina-encomendas .empty-state h3 {
+    margin: 0 0 8px;
+}
+
+#pagina-encomendas .empty-state p {
+    margin: 0;
+    color: #b8b8b8;
+}
+
+/* Modal */
+
+#pagina-encomendas .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgb(0 0 0 / 75%);
+    overflow-y: auto;
+}
+
+#pagina-encomendas .modal-card {
+    width: 100%;
+    max-width: 720px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    padding: 26px;
+    color: #f5f5f5;
+    background: #1b1b1b;
+    border: 1px solid #383838;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 40%);
+}
+
+#pagina-encomendas .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+#pagina-encomendas .modal-header h2 {
+    margin: 8px 0 0;
+}
+
+#pagina-encomendas .modal-close {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: #292929;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#pagina-encomendas .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+#pagina-encomendas .valor-encomenda-preview {
+    margin: 18px 0;
+    padding: 16px;
+    background: #292015;
+    border: 1px solid #65401d;
+    border-radius: 10px;
+    color: #ffad57;
+    font-weight: 700;
+}
+
+#pagina-encomendas .modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+/* Esconder elementos */
+
+#pagina-encomendas .hidden {
+    display: none !important;
+}
+
+/* Responsividade */
+
+@media (max-width: 768px) {
+    #pagina-encomendas {
+        padding: 18px 0 30px;
+    }
+    #pagina-encomendas .page-header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+    }
+    #pagina-encomendas .page-header .btn-primary {
+        width: 100%;
+    }
+    #pagina-encomendas .encomendas-stats {
+        grid-template-columns: 1fr;
+    }
+    #pagina-encomendas .encomendas-filtros {
+        grid-template-columns: 1fr;
+    }
+    #pagina-encomendas .encomendas-grid {
+        grid-template-columns: 1fr;
+    }
+    #pagina-encomendas .form-grid {
+        grid-template-columns: 1fr;
+    }
+    #pagina-encomendas .card {
+        padding: 18px;
+    }
+    #pagina-encomendas .modal-card {
+        padding: 20px;
+    }
+    #pagina-encomendas .modal-actions {
+        flex-direction: column;
+    }
+    #pagina-encomendas .modal-actions button {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   AJUSTES DE BOTÕES (cabeçalho e modal)
+========================================== */
+#pagina-encomendas .page-header .btn-primary {
+    width: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+#pagina-encomendas .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+#pagina-encomendas .modal-actions .btn-primary,
+#pagina-encomendas .modal-actions .btn-secondary {
+    width: auto;
+    margin-top: 0;
+}
+
+@media (max-width: 500px) {
+    #pagina-encomendas .page-header .btn-primary,
+    #pagina-encomendas .modal-actions .btn-primary,
+    #pagina-encomendas .modal-actions .btn-secondary {
+        width: 100%;
+    }
+
+    #pagina-encomendas .modal-actions {
+        flex-direction: column-reverse;
+    }
+}
