@@ -1,16 +1,9 @@
 /* =========================================================
-   LOGIN
+   LOGIN (tela index.html)
+
+   Depende de: config.js, auth.js
 ========================================================= */
 
-/*
-   Usuários: para adicionar um, gere o SHA-256 da senha e inclua aqui.
-   Padrão: admin / vendetta123  (TROQUE antes de usar).
-   Atenção: a validação roda no navegador; serve para controle de acesso
-   simples, não substitui autenticação em servidor.
-*/
-const USUARIOS = [
-    { usuario: "admin", nome: "Administrador", hash: "f2a4515c2589b0c15688d5587ad4d5cc0d0e652a9215376eae60f6d22a727353" }
-];
 const MAX_TENTATIVAS = 5;
 const BLOQUEIO_MS = 30000;
 
@@ -22,51 +15,51 @@ const botao = document.getElementById("btnEntrar");
 const campoSenha = document.getElementById("senha");
 let tentativas = 0;
 
-async function sha256(texto) {
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(texto));
-    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
-function mostrarErro(msg) {
-    erro.textContent = msg;
+function mostrarErro(mensagem) {
+    erro.textContent = mensagem;
     erro.classList.remove("hidden");
-    const card = document.querySelector(".login-card");
-    card.classList.remove("erro");
-    void card.offsetWidth;
-    card.classList.add("erro");
+
+    const cartao = document.querySelector(".login-card");
+    cartao.classList.remove("erro");
+    void cartao.offsetWidth; // reinicia a animação
+    cartao.classList.add("erro");
 }
 
 function segundosBloqueado() {
     return Math.ceil((Number(localStorage.getItem("loginBloqueadoAte")) - Date.now()) / 1000);
 }
 
-form.addEventListener("submit", async e => {
-    e.preventDefault();
+form.addEventListener("submit", async evento => {
+    evento.preventDefault();
     erro.classList.add("hidden");
-    const usuario = document.getElementById("usuario").value.trim().toLowerCase();
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const senha = campoSenha.value;
 
-    if (segundosBloqueado() > 0) return mostrarErro(`Muitas tentativas. Aguarde ${segundosBloqueado()}s.`);
-    if (!usuario || !senha) return mostrarErro("Preencha usuário e senha.");
+    if (segundosBloqueado() > 0) {
+        return mostrarErro(`Muitas tentativas. Aguarde ${segundosBloqueado()}s.`);
+    }
+
+    if (!email || !senha) {
+        return mostrarErro("Preencha e-mail e senha.");
+    }
 
     botao.disabled = true;
     botao.textContent = "Entrando...";
+
     try {
-        const h = await sha256(senha);
-        const conta = USUARIOS.find(u => u.usuario === usuario && u.hash === h);
-        if (!conta) {
-            tentativas++;
-            if (tentativas >= MAX_TENTATIVAS) {
-                localStorage.setItem("loginBloqueadoAte", Date.now() + BLOQUEIO_MS);
-                tentativas = 0;
-                return mostrarErro("Muitas tentativas. Aguarde 30s.");
-            }
-            return mostrarErro("Usuário ou senha incorretos.");
-        }
-        iniciarSessao(conta.nome, document.getElementById("manterConectado").checked);
+        await entrarNoSupabase(email, senha, document.getElementById("manterConectado").checked);
         window.location.replace(AUTH.paginaApp);
-    } catch {
-        mostrarErro("Não foi possível validar o login neste navegador.");
+    } catch (e) {
+        tentativas++;
+
+        if (tentativas >= MAX_TENTATIVAS) {
+            localStorage.setItem("loginBloqueadoAte", Date.now() + BLOQUEIO_MS);
+            tentativas = 0;
+            mostrarErro("Muitas tentativas. Aguarde 30s.");
+        } else {
+            mostrarErro(e.message || "Não foi possível entrar.");
+        }
     } finally {
         botao.disabled = false;
         botao.textContent = "Entrar";

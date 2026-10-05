@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/perimetros.css">
     <link rel="stylesheet" href="assets/css/horario.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
+    <script src="assets/js/config.js"></script>
     <script src="assets/js/auth.js"></script>
     <script>protegerPagina();</script>
 </head>
@@ -48,6 +49,18 @@
                 <span>VENDETTA <small>WEB</small></span>
             </header>
     <main class="container">
+        <!-- AVISO: dados antigos salvos só neste navegador -->
+        <div id="avisoMigracao" class="aviso-app hidden">
+            <div>
+                <strong>Dados antigos encontrados neste navegador</strong>
+                <p id="avisoMigracaoTexto"></p>
+            </div>
+            <div class="aviso-app-acoes">
+                <button type="button" id="btnMigrar" class="btn-primary" onclick="executarMigracao()">Enviar para o banco</button>
+                <button type="button" class="btn-secondary" onclick="dispensarMigracao()">Agora não</button>
+            </div>
+        </div>
+
         <!-- ======================================
              CALCULADORA
         ======================================= -->
@@ -229,6 +242,8 @@
                     </select>
                 </div>
             </div>
+            <!-- CARREGANDO / ERRO -->
+            <div id="encomendasAviso" class="aviso-lista hidden"></div>
             <!-- LISTA -->
             <div id="listaEncomendas" class="encomendas-grid"></div>
             <!-- VAZIO  -->
@@ -379,6 +394,7 @@
                     </div>
 
                     <div class="perimetro-imagem-wrap">
+                        <p id="perimetroCarregando" class="perimetro-carregando hidden">Carregando foto...</p>
                         <img id="perimetroImagem" alt="" onclick="abrirImagemPerimetro()">
                     </div>
                 </div>
@@ -490,6 +506,7 @@
     </footer>
         </div><!-- /.app-main -->
     </div><!-- /.app-layout -->
+    <script src="assets/js/api.js"></script>
     <script src="assets/js/dados.js"></script>
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/navegacao.js"></script>
@@ -498,6 +515,7 @@
     <script src="assets/js/perimetros.js"></script>
     <script src="assets/js/horario.js"></script>
     <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/migracao.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

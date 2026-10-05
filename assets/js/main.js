@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarItens();
     carregarProdutosEncomenda();
     carregarFiltroProdutosEncomenda();
-    mostrarEncomendas();
+    carregarEncomendas();
     carregarPerimetros();
     iniciarHorarioPista();
+    verificarMigracao();
 });

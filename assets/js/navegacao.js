@@ -1,54 +1,39 @@
 /* =========================================================
-   MENU
+   MENU / NAVEGAÇÃO ENTRE PÁGINAS
 ========================================================= */
+
 function mostrarPagina(pagina, botao) {
-    // Esconde todas as páginas
-    document
-        .querySelectorAll(".pagina")
-        .forEach(secao => {
-        secao.classList.add("hidden");
-    });
-    // Procura a página selecionada
     const paginaSelecionada = document.getElementById(`pagina-${pagina}`);
+
     if (!paginaSelecionada) {
         console.error("Página não encontrada:", `pagina-${pagina}`);
         return;
     }
-    // Mostra a página
+
+    // Esconde todas as páginas e mostra a escolhida
+    document.querySelectorAll(".pagina").forEach(secao => secao.classList.add("hidden"));
     paginaSelecionada.classList.remove("hidden");
-    // Remove active dos botões
-    document
-        .querySelectorAll(".menu-btn")
-        .forEach(btn => {
-        btn.classList.remove("active");
-    });
-    // Ativa o botão clicado
-    if (botao) {
-        botao.classList.add("active");
-    }
-    // Funções específicas
+
+    // Marca o botão ativo
+    document.querySelectorAll(".menu-btn").forEach(btn => btn.classList.remove("active"));
+    if (botao) botao.classList.add("active");
+
+    // Ações específicas de cada página
     if (pagina === "calculadora") {
         carregarItens();
     }
+
     if (pagina === "encomendas") {
-        if (typeof carregarProdutosEncomenda === "function") {
-            carregarProdutosEncomenda();
-        }
-        if (typeof carregarFiltroProdutosEncomenda === "function") {
-            carregarFiltroProdutosEncomenda();
-        }
-        if (typeof mostrarEncomendas === "function") {
-            mostrarEncomendas();
-        }
+        carregarProdutosEncomenda();
+        carregarFiltroProdutosEncomenda();
+        carregarEncomendas(); // busca de novo no banco: outras pessoas podem ter alterado
     }
+
     if (pagina === "perimetros") {
-        if (typeof carregarPerimetros === "function") {
-            carregarPerimetros();
-        }
+        carregarPerimetros();
     }
+
     if (pagina === "horario") {
-        if (typeof atualizarHorarioPista === "function") {
-            atualizarHorarioPista();
-        }
+        atualizarHorarioPista();
     }
 }

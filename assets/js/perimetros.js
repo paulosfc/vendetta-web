@@ -1,83 +1,45 @@
 /* =========================================================
    PERÍMETROS
 
-   Guarda as fotos no IndexedDB do navegador (comporta imagens
-   grandes, ao contrário do localStorage, que tem ~5 MB).
+   Os dados ficam na tabela "perimetros" do Supabase e as fotos
+   no bucket "perimetros" (Storage).
 
-   Depende de: utils.js (escaparHtml não é necessário aqui,
-   os textos são inseridos com textContent)
+   Depende de: config.js, api.js (banco, armazenamento)
 ========================================================= */
 
-const PERIMETROS_DB = "vendettaPerimetros";
-const PERIMETROS_STORE = "perimetros";
-const PERIMETROS_TAMANHO_MAXIMO = 15 * 1024 * 1024; // 15 MB
+const TABELA_PERIMETROS = "perimetros";
+const PERIMETROS_TAMANHO_MAXIMO = 15 * 1024 * 1024; // 15 MB (o plano grátis aceita até 50 MB)
 
 let perimetros = [];
-let perimetroUrlAtual = null;
-
-/* =========================================================
-   BANCO (IndexedDB)
-========================================================= */
-
-function abrirBancoPerimetros() {
-    return new Promise((resolve, reject) => {
-        if (!window.indexedDB) {
-            reject(new Error("IndexedDB indisponível"));
-            return;
-        }
-
-        const pedido = indexedDB.open(PERIMETROS_DB, 1);
-
-        pedido.onupgradeneeded = () => {
-            pedido.result.createObjectStore(PERIMETROS_STORE, {
-                keyPath: "id",
-                autoIncrement: true
-            });
-        };
-        pedido.onsuccess = () => resolve(pedido.result);
-        pedido.onerror = () => reject(pedido.error);
-    });
-}
-
-async function operacaoPerimetros(modo, operacao) {
-    const banco = await abrirBancoPerimetros();
-
-    return new Promise((resolve, reject) => {
-        const transacao = banco.transaction(PERIMETROS_STORE, modo);
-        const pedido = operacao(transacao.objectStore(PERIMETROS_STORE));
-
-        transacao.oncomplete = () => {
-            banco.close();
-            resolve(pedido ? pedido.result : undefined);
-        };
-        transacao.onerror = () => {
-            banco.close();
-            reject(transacao.error);
-        };
-        transacao.onabort = () => {
-            banco.close();
-            reject(transacao.error);
-        };
-    });
-}
-
-const listarPerimetrosNoBanco = () => operacaoPerimetros("readonly", loja => loja.getAll());
-const gravarPerimetroNoBanco = perimetro => operacaoPerimetros("readwrite", loja => loja.put(perimetro));
-const excluirPerimetroNoBanco = id => operacaoPerimetros("readwrite", loja => loja.delete(id));
+const fotosEmCache = new Map(); // caminho no storage -> URL da foto já baixada
+let perimetroExibido = null;    // id que está na tela (evita misturar fotos ao trocar rápido)
 
 /* =========================================================
    LISTA / SELECT
 ========================================================= */
 
+function normalizarPerimetro(linha) {
+    return {
+        id: Number(linha.id),
+        nome: linha.nome,
+        arquivo: linha.arquivo,
+        criadoEm: linha.criado_em
+    };
+}
+
 async function carregarPerimetros(idParaSelecionar) {
     const select = document.getElementById("perimetroSelect");
     if (!select) return;
 
+    let falhou = null;
+
     try {
-        perimetros = await listarPerimetrosNoBanco();
+        const linhas = await banco.listar(TABELA_PERIMETROS, "select=id,nome,arquivo,criado_em&order=nome.asc");
+        perimetros = linhas.map(normalizarPerimetro);
     } catch (erro) {
         console.error("Erro ao carregar perímetros:", erro);
         perimetros = [];
+        falhou = erro.message;
     }
 
     perimetros.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR", { numeric: true }));
@@ -101,7 +63,7 @@ async function carregarPerimetros(idParaSelecionar) {
         select.value = selecionado;
     }
 
-    mostrarPerimetro();
+    mostrarPerimetro(falhou);
 }
 
 function perimetroSelecionado() {
@@ -113,36 +75,48 @@ function perimetroSelecionado() {
    VISUALIZAR
 ========================================================= */
 
-function liberarUrlPerimetro() {
-    if (perimetroUrlAtual) {
-        URL.revokeObjectURL(perimetroUrlAtual);
-        perimetroUrlAtual = null;
+async function obterUrlDaFoto(perimetro) {
+    if (fotosEmCache.has(perimetro.arquivo)) {
+        return fotosEmCache.get(perimetro.arquivo);
+    }
+
+    const blob = await armazenamento.baixar(SUPABASE_BUCKET_PERIMETROS, perimetro.arquivo);
+    const url = URL.createObjectURL(blob);
+    fotosEmCache.set(perimetro.arquivo, url);
+    return url;
+}
+
+function esquecerFoto(arquivo) {
+    if (fotosEmCache.has(arquivo)) {
+        URL.revokeObjectURL(fotosEmCache.get(arquivo));
+        fotosEmCache.delete(arquivo);
     }
 }
 
-function mostrarPerimetro() {
+async function mostrarPerimetro(mensagemDeErro) {
     const viewer = document.getElementById("perimetroViewer");
     const vazio = document.getElementById("perimetroVazio");
     const imagem = document.getElementById("perimetroImagem");
-    if (!viewer || !vazio || !imagem) return;
+    const carregando = document.getElementById("perimetroCarregando");
+    if (!viewer || !vazio || !imagem || !carregando) return;
 
     const perimetro = perimetroSelecionado();
-
-    liberarUrlPerimetro();
+    perimetroExibido = perimetro ? perimetro.id : null;
 
     if (!perimetro) {
         imagem.removeAttribute("src");
         viewer.classList.add("hidden");
         vazio.classList.remove("hidden");
-        vazio.textContent = perimetros.length === 0
-            ? "Nenhum perímetro cadastrado ainda. Adicione uma foto abaixo."
-            : "Escolha um perímetro na lista para ver a foto.";
+
+        if (typeof mensagemDeErro === "string" && mensagemDeErro) {
+            vazio.textContent = `Não foi possível carregar os perímetros: ${mensagemDeErro}`;
+        } else {
+            vazio.textContent = perimetros.length === 0
+                ? "Nenhum perímetro cadastrado ainda. Adicione uma foto abaixo."
+                : "Escolha um perímetro na lista para ver a foto.";
+        }
         return;
     }
-
-    perimetroUrlAtual = URL.createObjectURL(perimetro.imagem);
-    imagem.src = perimetroUrlAtual;
-    imagem.alt = perimetro.nome;
 
     document.getElementById("perimetroNome").textContent = perimetro.nome;
     document.getElementById("perimetroData").textContent =
@@ -150,12 +124,44 @@ function mostrarPerimetro() {
 
     vazio.classList.add("hidden");
     viewer.classList.remove("hidden");
+
+    // Foto já baixada: mostra na hora. Senão, mostra "Carregando..."
+    if (fotosEmCache.has(perimetro.arquivo)) {
+        carregando.classList.add("hidden");
+        imagem.classList.remove("hidden");
+        imagem.src = fotosEmCache.get(perimetro.arquivo);
+        imagem.alt = perimetro.nome;
+        return;
+    }
+
+    imagem.removeAttribute("src");
+    imagem.classList.add("hidden");
+    carregando.textContent = "Carregando foto...";
+    carregando.classList.remove("hidden");
+
+    try {
+        const url = await obterUrlDaFoto(perimetro);
+
+        // O usuário pode ter trocado de perímetro enquanto baixava
+        if (perimetroExibido !== perimetro.id) return;
+
+        imagem.src = url;
+        imagem.alt = perimetro.nome;
+        imagem.classList.remove("hidden");
+        carregando.classList.add("hidden");
+    } catch (erro) {
+        console.error("Erro ao baixar foto:", erro);
+
+        if (perimetroExibido === perimetro.id) {
+            carregando.textContent = `Não foi possível carregar a foto: ${erro.message}`;
+        }
+    }
 }
 
 function abrirImagemPerimetro() {
     const lightbox = document.getElementById("perimetroLightbox");
     const imagem = document.getElementById("perimetroImagem");
-    if (!lightbox || !imagem.src) return;
+    if (!lightbox || !imagem.getAttribute("src")) return;
 
     document.getElementById("perimetroLightboxImg").src = imagem.src;
     document.getElementById("perimetroLightboxImg").alt = imagem.alt;
@@ -196,6 +202,12 @@ function limparFormularioPerimetro() {
     aoEscolherFotoPerimetro();
 }
 
+function nomeJaExiste(nome, ignorarId) {
+    return perimetros.some(p => p.id !== ignorarId && p.nome.toLowerCase() === nome.toLowerCase());
+}
+
+const ehNomeDuplicado = erro => erro.status === 409 || erro.codigo === "23505";
+
 async function salvarPerimetro(evento) {
     evento.preventDefault();
 
@@ -221,28 +233,40 @@ async function salvarPerimetro(evento) {
     // Sem nome digitado, usa o nome do arquivo (sem a extensão)
     const nome = campoNome.value.trim() || arquivo.name.replace(/\.[^.]+$/, "");
 
-    if (perimetros.some(p => p.nome.toLowerCase() === nome.toLowerCase())) {
+    if (nomeJaExiste(nome)) {
         alert(`Já existe um perímetro chamado "${nome}".`);
         return;
     }
 
     botao.disabled = true;
+    botao.textContent = "Enviando...";
+
+    const caminho = nomeArquivoSeguro(arquivo);
+    let fotoEnviada = false;
 
     try {
-        const id = await gravarPerimetroNoBanco({
-            nome: nome,
-            imagem: arquivo,
-            criadoEm: new Date().toISOString()
-        });
+        await armazenamento.enviar(SUPABASE_BUCKET_PERIMETROS, caminho, arquivo);
+        fotoEnviada = true;
+
+        const [linha] = await banco.inserir(TABELA_PERIMETROS, { nome: nome, arquivo: caminho });
 
         limparFormularioPerimetro();
-        await carregarPerimetros(id);
+        await carregarPerimetros(linha.id);
         document.getElementById("perimetroViewer").scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (erro) {
         console.error("Erro ao salvar perímetro:", erro);
-        alert("Não foi possível salvar a foto neste navegador.");
+
+        // Se a foto subiu mas o cadastro falhou, apaga a foto para não sobrar lixo
+        if (fotoEnviada) {
+            armazenamento.remover(SUPABASE_BUCKET_PERIMETROS, [caminho]).catch(() => {});
+        }
+
+        alert(ehNomeDuplicado(erro)
+            ? `Já existe um perímetro chamado "${nome}".`
+            : `Não foi possível salvar o perímetro: ${erro.message}`);
     } finally {
         botao.disabled = false;
+        botao.textContent = "Salvar perímetro";
     }
 }
 
@@ -264,21 +288,19 @@ async function renomearPerimetro() {
         return;
     }
 
-    const repetido = perimetros.some(
-        p => p.id !== perimetro.id && p.nome.toLowerCase() === nome.toLowerCase()
-    );
-
-    if (repetido) {
+    if (nomeJaExiste(nome, perimetro.id)) {
         alert(`Já existe um perímetro chamado "${nome}".`);
         return;
     }
 
     try {
-        await gravarPerimetroNoBanco({ ...perimetro, nome: nome });
-        await carregarPerimetros();
+        await banco.atualizar(TABELA_PERIMETROS, perimetro.id, { nome: nome });
+        await carregarPerimetros(perimetro.id);
     } catch (erro) {
         console.error("Erro ao renomear perímetro:", erro);
-        alert("Não foi possível renomear.");
+        alert(ehNomeDuplicado(erro)
+            ? `Já existe um perímetro chamado "${nome}".`
+            : `Não foi possível renomear: ${erro.message}`);
     }
 }
 
@@ -289,13 +311,21 @@ async function excluirPerimetro() {
     if (!confirm(`Deseja excluir o perímetro "${perimetro.nome}"?`)) return;
 
     try {
-        await excluirPerimetroNoBanco(perimetro.id);
-        document.getElementById("perimetroSelect").value = "";
-        await carregarPerimetros();
+        await banco.excluir(TABELA_PERIMETROS, perimetro.id);
     } catch (erro) {
         console.error("Erro ao excluir perímetro:", erro);
-        alert("Não foi possível excluir.");
+        alert(`Não foi possível excluir: ${erro.message}`);
+        return;
     }
+
+    // O registro já foi removido; apagar o arquivo é só limpeza
+    esquecerFoto(perimetro.arquivo);
+    armazenamento.remover(SUPABASE_BUCKET_PERIMETROS, [perimetro.arquivo]).catch(erro => {
+        console.warn("Foto não removida do armazenamento:", erro);
+    });
+
+    document.getElementById("perimetroSelect").value = "";
+    await carregarPerimetros();
 }
 
 /* =========================================================

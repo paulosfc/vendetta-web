@@ -1,39 +1,87 @@
 /* =========================================================
-   ENCOMENDAS
+   ENCOMENDAS (guardadas no Supabase, tabela "encomendas")
 
-   Depende de: dados.js (receitas, valoresPorProduto)
+   Depende de: api.js (banco)
+               dados.js (receitas, valoresPorProduto)
                utils.js (formatarDinheiro, formatarNumero, escaparHtml)
 ========================================================= */
 
-const CHAVE_ENCOMENDAS = "encomendasCraft";
+const TABELA_ENCOMENDAS = "encomendas";
 const STATUS_PENDENTE = "Pendente";
 const STATUS_CONCLUIDA = "Concluída";
 
-let encomendas = lerEncomendas();
+let encomendas = [];
 
 /* =========================================================
-   ARMAZENAMENTO
+   BANCO
 ========================================================= */
 
-function lerEncomendas() {
-    try {
-        const dados = JSON.parse(localStorage.getItem(CHAVE_ENCOMENDAS));
-        return Array.isArray(dados) ? dados : [];
-    } catch {
-        return [];
+// Linha do banco (snake_case) -> objeto usado na tela
+function normalizarEncomenda(linha) {
+    return {
+        id: Number(linha.id),
+        produto: linha.produto,
+        quantidade: Number(linha.quantidade),
+        tipo: linha.tipo,
+        cliente: linha.cliente || "",
+        observacoes: linha.observacoes || "",
+        status: linha.status,
+        criadaEm: linha.criada_em,
+        concluidaEm: linha.concluida_em
+    };
+}
+
+function mostrarAvisoEncomendas(mensagem, comErro, comBotao) {
+    const aviso = document.getElementById("encomendasAviso");
+    if (!aviso) return;
+
+    if (!mensagem) {
+        aviso.classList.add("hidden");
+        aviso.innerHTML = "";
+        return;
+    }
+
+    aviso.classList.toggle("erro", Boolean(comErro));
+    aviso.classList.remove("hidden");
+    aviso.textContent = mensagem;
+
+    if (comBotao) {
+        const botao = document.createElement("button");
+        botao.type = "button";
+        botao.className = "btn-secondary";
+        botao.textContent = "Tentar de novo";
+        botao.addEventListener("click", carregarEncomendas);
+        aviso.appendChild(botao);
     }
 }
 
-function salvarEncomendas() {
-    localStorage.setItem(CHAVE_ENCOMENDAS, JSON.stringify(encomendas));
-}
+async function carregarEncomendas() {
+    mostrarAvisoEncomendas("Carregando encomendas...");
 
-function proximoIdEncomenda() {
-    return encomendas.reduce((maior, e) => Math.max(maior, Number(e.id) || 0), 0) + 1;
+    try {
+        const linhas = await banco.listar(TABELA_ENCOMENDAS, "select=*&order=id.desc");
+        encomendas = linhas.map(normalizarEncomenda);
+        mostrarAvisoEncomendas("");
+    } catch (erro) {
+        console.error("Erro ao carregar encomendas:", erro);
+        mostrarAvisoEncomendas(`Não foi possível carregar as encomendas: ${erro.message}`, true, true);
+    }
+
+    mostrarEncomendas();
 }
 
 function buscarEncomenda(id) {
     return encomendas.find(e => e.id === Number(id));
+}
+
+function substituirEncomenda(nova) {
+    const indice = encomendas.findIndex(e => e.id === nova.id);
+
+    if (indice >= 0) {
+        encomendas[indice] = nova;
+    } else {
+        encomendas.push(nova);
+    }
 }
 
 /* =========================================================
@@ -171,7 +219,7 @@ function fecharModalEncomenda() {
    SALVAR / ALTERAR / EXCLUIR
 ========================================================= */
 
-function salvarEncomenda(event) {
+async function salvarEncomenda(event) {
     event.preventDefault();
 
     const id = document.getElementById("encomendaId").value;
@@ -191,46 +239,52 @@ function salvarEncomenda(event) {
         return;
     }
 
-    const existente = id ? buscarEncomenda(id) : null;
+    const dados = { produto, quantidade, tipo, cliente, observacoes };
+    const botao = document.querySelector("#formEncomenda button[type=submit]");
 
-    if (existente) {
-        Object.assign(existente, { produto, quantidade, tipo, cliente, observacoes });
-    } else {
-        encomendas.push({
-            id: proximoIdEncomenda(),
-            produto,
-            quantidade,
-            tipo,
-            cliente,
-            observacoes,
-            status: STATUS_PENDENTE,
-            criadaEm: new Date().toISOString(),
-            concluidaEm: null
-        });
+    botao.disabled = true;
+
+    try {
+        let linha;
+
+        if (id) {
+            linha = await banco.atualizar(TABELA_ENCOMENDAS, id, dados);
+        } else {
+            [linha] = await banco.inserir(TABELA_ENCOMENDAS, dados);
+        }
+
+        substituirEncomenda(normalizarEncomenda(linha));
+        fecharModalEncomenda();
+        mostrarEncomendas();
+    } catch (erro) {
+        console.error("Erro ao salvar encomenda:", erro);
+        alert(`Não foi possível salvar a encomenda: ${erro.message}`);
+    } finally {
+        botao.disabled = false;
     }
-
-    salvarEncomendas();
-    fecharModalEncomenda();
-    mostrarEncomendas();
 }
 
-function alternarStatusEncomenda(id) {
+async function alternarStatusEncomenda(id) {
     const encomenda = buscarEncomenda(id);
     if (!encomenda) return;
 
-    if (encomenda.status === STATUS_CONCLUIDA) {
-        encomenda.status = STATUS_PENDENTE;
-        encomenda.concluidaEm = null;
-    } else {
-        encomenda.status = STATUS_CONCLUIDA;
-        encomenda.concluidaEm = new Date().toISOString();
-    }
+    const concluir = encomenda.status !== STATUS_CONCLUIDA;
 
-    salvarEncomendas();
-    mostrarEncomendas();
+    try {
+        const linha = await banco.atualizar(TABELA_ENCOMENDAS, encomenda.id, {
+            status: concluir ? STATUS_CONCLUIDA : STATUS_PENDENTE,
+            concluida_em: concluir ? new Date().toISOString() : null
+        });
+
+        substituirEncomenda(normalizarEncomenda(linha));
+        mostrarEncomendas();
+    } catch (erro) {
+        console.error("Erro ao alterar status:", erro);
+        alert(`Não foi possível alterar o status: ${erro.message}`);
+    }
 }
 
-function excluirEncomenda(id) {
+async function excluirEncomenda(id) {
     const encomenda = buscarEncomenda(id);
     if (!encomenda) return;
 
@@ -238,9 +292,14 @@ function excluirEncomenda(id) {
         return;
     }
 
-    encomendas = encomendas.filter(e => e.id !== encomenda.id);
-    salvarEncomendas();
-    mostrarEncomendas();
+    try {
+        await banco.excluir(TABELA_ENCOMENDAS, encomenda.id);
+        encomendas = encomendas.filter(e => e.id !== encomenda.id);
+        mostrarEncomendas();
+    } catch (erro) {
+        console.error("Erro ao excluir encomenda:", erro);
+        alert(`Não foi possível excluir a encomenda: ${erro.message}`);
+    }
 }
 
 /* =========================================================
@@ -357,6 +416,7 @@ function criarCardEncomenda(e) {
 function mostrarEncomendas() {
     const lista = document.getElementById("listaEncomendas");
     const vazio = document.getElementById("encomendasVazio");
+    const aviso = document.getElementById("encomendasAviso");
 
     atualizarEstatisticasEncomendas();
 
@@ -367,7 +427,9 @@ function mostrarEncomendas() {
     lista.innerHTML = "";
     filtradas.forEach(e => lista.appendChild(criarCardEncomenda(e)));
 
-    vazio.classList.toggle("hidden", filtradas.length > 0);
+    // Enquanto há aviso (carregando/erro), não mostra "nenhuma encomenda"
+    const avisoVisivel = aviso && !aviso.classList.contains("hidden");
+    vazio.classList.toggle("hidden", filtradas.length > 0 || avisoVisivel);
 }
 
 /* =========================================================
