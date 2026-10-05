@@ -12,6 +12,7 @@ if (estaLogado()) window.location.replace(AUTH.paginaApp);
 const form = document.getElementById("loginForm");
 const erro = document.getElementById("loginErro");
 const botao = document.getElementById("btnEntrar");
+const campoEmail = document.getElementById("email") || document.getElementById("usuario");
 const campoSenha = document.getElementById("senha");
 let tentativas = 0;
 
@@ -33,7 +34,11 @@ form.addEventListener("submit", async evento => {
     evento.preventDefault();
     erro.classList.add("hidden");
 
-    const email = document.getElementById("email").value.trim().toLowerCase();
+    if (!campoEmail || !campoSenha) {
+        return mostrarErro("A página de login está desatualizada. Atualize o index.html e recarregue com Ctrl+F5.");
+    }
+
+    const email = campoEmail.value.trim().toLowerCase();
     const senha = campoSenha.value;
 
     if (segundosBloqueado() > 0) {
