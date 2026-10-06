@@ -49,6 +49,10 @@ form.addEventListener("submit", async evento => {
         return mostrarErro("Preencha e-mail e senha.");
     }
 
+    if (!email.includes("@")) {
+        return mostrarErro("Digite o e-mail cadastrado no Supabase (não o nome de usuário).");
+    }
+
     botao.disabled = true;
     botao.textContent = "Entrando...";
 

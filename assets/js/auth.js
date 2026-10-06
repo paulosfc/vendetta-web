@@ -67,6 +67,9 @@ function traduzirErroAuth(corpo, status) {
     if (codigo === "invalid_credentials" || codigo === "invalid_grant" || texto.includes("invalid login")) {
         return "E-mail ou senha incorretos.";
     }
+    if (codigo === "validation_failed" || texto.includes("invalid format") || texto.includes("unable to validate email")) {
+        return "E-mail inválido. Digite o e-mail cadastrado no Supabase.";
+    }
     if (codigo === "email_not_confirmed" || texto.includes("not confirmed")) {
         return "Este e-mail ainda não foi confirmado. No Supabase, confirme o usuário (Auto Confirm).";
     }
@@ -102,6 +105,7 @@ async function entrarNoSupabase(email, senha, manterConectado) {
     const dados = await resposta.json().catch(() => ({}));
 
     if (!resposta.ok) {
+        console.warn("Login recusado pelo Supabase:", resposta.status, dados);
         throw new ErroAuth(traduzirErroAuth(dados, resposta.status));
     }
 
