@@ -1,5 +1,5 @@
 /* =========================================================
-   API DO SUPABASE (banco de dados e armazenamento de fotos)
+   API DO SUPABASE (banco de dados)
 
    Usa apenas fetch, sem bibliotecas externas.
    Depende de: config.js, auth.js
@@ -30,7 +30,7 @@ async function criarErroApi(resposta) {
     if (texto.includes("permission denied for table") || texto.includes("permission denied for schema")) {
         mensagem += " — faltam permissões no banco. No Supabase (SQL Editor), rode o arquivo banco.sql atualizado.";
     } else if (texto.includes("row-level security")) {
-        mensagem += " — sem permissão para esta ação. Sua conta pode ser somente leitura. Se você é o administrador, rode o banco.sql no SQL Editor.";
+        mensagem += " — sem permissão para esta ação. Sua conta pode ser somente leitura. Se você deveria poder editar, o administrador precisa rodar o SQL de permissões (hierarquia.sql) no Supabase.";
     } else if (texto.includes("could not find the table") || texto.includes("does not exist")) {
         mensagem += " — a tabela não existe. No Supabase (SQL Editor), rode o arquivo banco.sql.";
     }
@@ -139,70 +139,11 @@ const banco = {
 };
 
 /* =========================================================
-   ARMAZENAMENTO DE ARQUIVOS (Storage)
-========================================================= */
-
-const caminhoStorage = (bucket, caminho) =>
-    `/storage/v1/object/${bucket}/${caminho.split("/").map(encodeURIComponent).join("/")}`;
-
-const armazenamento = {
-    async enviar(bucket, caminho, arquivo) {
-        const resposta = await apiFetch(caminhoStorage(bucket, caminho), {
-            method: "POST",
-            headers: {
-                "Content-Type": arquivo.type || "application/octet-stream",
-                "x-upsert": "false"
-            },
-            body: arquivo
-        });
-        if (!resposta.ok) throw await criarErroApi(resposta);
-    },
-
-    async baixar(bucket, caminho) {
-        const resposta = await apiFetch(
-            caminhoStorage(bucket, caminho).replace("/object/", "/object/authenticated/")
-        );
-        if (!resposta.ok) throw await criarErroApi(resposta);
-        return resposta.blob();
-    },
-
-    async remover(bucket, caminhos) {
-        const resposta = await apiFetch(`/storage/v1/object/${bucket}`, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prefixes: caminhos })
-        });
-        if (!resposta.ok) throw await criarErroApi(resposta);
-    }
-};
-
-const EXTENSAO_POR_TIPO = {
-    "image/jpeg": "jpg",
-    "image/png": "png",
-    "image/webp": "webp",
-    "image/gif": "gif",
-    "image/avif": "avif",
-    "image/heic": "heic"
-};
-
-// Nome do arquivo no Storage: sem acentos nem espaços, e sempre único
-function nomeArquivoSeguro(arquivo) {
-    let extensao = EXTENSAO_POR_TIPO[arquivo.type] || "";
-
-    if (!extensao && arquivo.name.includes(".")) {
-        extensao = arquivo.name.split(".").pop().toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 5);
-    }
-
-    const aleatorio = Math.random().toString(36).slice(2, 8);
-    return `${Date.now()}-${aleatorio}${extensao ? "." + extensao : ""}`;
-}
-
-/* =========================================================
    PERFIL (função da pessoa logada)
 
    Funções: administrador, hierarquia e membro.
-   Hoje só o ADMINISTRADOR cria, edita e exclui; hierarquia e
-   membro apenas visualizam.
+   ADMINISTRADOR e HIERARQUIA podem criar, editar e excluir.
+   MEMBRO apenas visualiza.
 
    A regra de verdade fica no banco (RLS). Aqui só mostramos o
    nome da função e escondemos os botões que a pessoa não
@@ -215,8 +156,10 @@ const ROTULOS_PAPEL = {
     membro: "Membro da Vendetta"
 };
 
+const PAPEIS_QUE_EDITAM = ["administrador", "hierarquia"];
+
 // papel null = não deu para descobrir (banco antigo ou sem conexão)
-const perfilUsuario = { papel: null, administrador: true };
+const perfilUsuario = { papel: null, podeEditar: true };
 
 async function chamarFuncaoDoBanco(nome) {
     const resposta = await apiFetch(`/rest/v1/rpc/${nome}`, {
@@ -229,7 +172,7 @@ async function chamarFuncaoDoBanco(nome) {
 }
 
 function aplicarPerfil() {
-    document.body.classList.toggle("somente-leitura", !perfilUsuario.administrador);
+    document.body.classList.toggle("somente-leitura", !perfilUsuario.podeEditar);
     document.body.dataset.papel = perfilUsuario.papel || "";
 
     const nome = document.getElementById("usuarioLogado");
@@ -242,13 +185,14 @@ async function carregarPerfil() {
 
         if (typeof papel === "string") {
             perfilUsuario.papel = ROTULOS_PAPEL[papel] ? papel : "membro";
-            perfilUsuario.administrador = perfilUsuario.papel === "administrador";
+            perfilUsuario.podeEditar = PAPEIS_QUE_EDITAM.includes(perfilUsuario.papel);
         } else {
-            // Banco ainda na versão anterior (só sabe se é administrador)
+            // Banco ainda na versão anterior (só sabe se é administrador;
+            // nesse caso a hierarquia aparece como membro)
             const administrador = await chamarFuncaoDoBanco("eh_administrador");
 
             if (typeof administrador === "boolean") {
-                perfilUsuario.administrador = administrador;
+                perfilUsuario.podeEditar = administrador;
                 perfilUsuario.papel = administrador ? "administrador" : "membro";
             }
         }

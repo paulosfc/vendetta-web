@@ -59,7 +59,7 @@
             </header>
     <main class="container">
         <!-- AVISO: dados antigos salvos só neste navegador -->
-        <div id="avisoMigracao" class="aviso-app so-admin hidden">
+        <div id="avisoMigracao" class="aviso-app so-editor hidden">
             <div>
                 <strong>Dados antigos encontrados neste navegador</strong>
                 <p id="avisoMigracaoTexto"></p>
@@ -169,7 +169,7 @@
                         Crie e acompanhe as encomendas dos produtos.
                     </p>
                 </div>
-                <button type="button" class="btn-primary so-admin" onclick="abrirModalEncomenda()">
+                <button type="button" class="btn-primary so-editor" onclick="abrirModalEncomenda()">
                     + Nova Encomenda
                 </button>
             </div>
@@ -363,7 +363,7 @@
         </section>
 
         <!-- ======================================
-             PERÍMETROS
+             PERÍMETROS (somente visualização; dados em dados-perimetros.js)
         ======================================= -->
 
         <section id="pagina-perimetros" class="pagina hidden">
@@ -371,10 +371,9 @@
             <div class="page-title">
                 <span class="result-label">PERÍMETROS</span>
                 <h1>Perímetros</h1>
-                <p>Envie as fotos dos perímetros e escolha qual deseja visualizar.</p>
+                <p>Escolha um perímetro para ver a imagem.</p>
             </div>
 
-            <!-- VISUALIZAR -->
             <div class="card">
                 <h2>Visualizar perímetro</h2>
 
@@ -385,52 +384,24 @@
                     </select>
                 </div>
 
-                <div id="perimetroVazio" class="perimetro-vazio">
-                    Nenhum perímetro cadastrado ainda. Adicione uma foto abaixo.
-                </div>
+                <div id="perimetroVazio" class="perimetro-vazio"></div>
 
                 <div id="perimetroViewer" class="perimetro-viewer hidden">
                     <div class="perimetro-viewer-header">
                         <div>
                             <h3 id="perimetroNome"></h3>
-                            <small id="perimetroData"></small>
+                            <small id="perimetroDescricao"></small>
                         </div>
                         <div class="perimetro-actions">
                             <button type="button" class="btn-editar-perimetro" onclick="abrirImagemPerimetro()">Ampliar</button>
-                            <button type="button" class="btn-editar-perimetro so-admin" onclick="renomearPerimetro()">Renomear</button>
-                            <button type="button" class="btn-excluir-perimetro so-admin" onclick="excluirPerimetro()">Excluir</button>
                         </div>
                     </div>
 
                     <div class="perimetro-imagem-wrap">
-                        <p id="perimetroCarregando" class="perimetro-carregando hidden">Carregando foto...</p>
+                        <p id="perimetroAviso" class="perimetro-carregando hidden"></p>
                         <img id="perimetroImagem" alt="" onclick="abrirImagemPerimetro()">
                     </div>
                 </div>
-            </div>
-
-            <!-- ADICIONAR -->
-            <div class="card so-admin" id="cardAdicionarPerimetro">
-                <h2>Adicionar perímetro</h2>
-
-                <form id="formPerimetro" onsubmit="salvarPerimetro(event)">
-                    <div class="form-group">
-                        <label for="perimetroNovoNome">Nome</label>
-                        <input type="text" id="perimetroNovoNome" placeholder="Ex: Perímetro Norte" maxlength="60">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="perimetroArquivo">Foto</label>
-                        <label class="perimetro-upload" for="perimetroArquivo">
-                            <span class="perimetro-upload-botao">Escolher foto</span>
-                            <span id="perimetroArquivoNome" class="perimetro-upload-nome">Nenhum arquivo selecionado</span>
-                        </label>
-                        <input type="file" id="perimetroArquivo" accept="image/*" class="hidden" onchange="aoEscolherFotoPerimetro()">
-                        <img id="perimetroPreview" class="perimetro-preview hidden" alt="Pré-visualização">
-                    </div>
-
-                    <button type="submit" id="btnSalvarPerimetro" class="btn-primary">Salvar perímetro</button>
-                </form>
             </div>
 
             <!-- AMPLIAR -->
@@ -598,6 +569,7 @@
     <script src="assets/js/navegacao.js"></script>
     <script src="assets/js/calculadora.js"></script>
     <script src="assets/js/encomendas.js"></script>
+    <script src="assets/js/dados-perimetros.js"></script>
     <script src="assets/js/perimetros.js"></script>
     <script src="assets/js/horario.js"></script>
     <script src="assets/js/dados-crafts.js"></script>

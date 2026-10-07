@@ -397,7 +397,7 @@ function criarCardEncomenda(e) {
         <div class="encomenda-valor">${valorHtml}</div>
         ${observacoesHtml}
 
-        <div class="encomenda-actions so-admin">
+        <div class="encomenda-actions so-editor">
             <button type="button" class="${concluida ? "btn-reabrir-encomenda" : "btn-concluir-encomenda"}" data-acao="status">
                 ${concluida ? "Reabrir" : "Concluir"}
             </button>

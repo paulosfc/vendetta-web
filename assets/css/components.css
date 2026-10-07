@@ -220,7 +220,7 @@ button {
    CONTA SOMENTE LEITURA
    (a classe é aplicada no <body> pelo api.js)
 ========================================== */
-.somente-leitura .so-admin {
+.somente-leitura .so-editor {
     display: none !important;
 }
 
