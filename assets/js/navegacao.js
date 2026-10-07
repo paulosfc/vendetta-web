@@ -33,6 +33,14 @@ function mostrarPagina(pagina, botao) {
         carregarPerimetros();
     }
 
+    if (pagina === "crafts") {
+        mostrarCrafts();
+    }
+
+    if (pagina === "rotas") {
+        carregarRotas();
+    }
+
     if (pagina === "horario") {
         atualizarHorarioPista();
     }

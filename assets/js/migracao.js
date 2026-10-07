@@ -91,6 +91,8 @@ function apagarPerimetrosLocais() {
 ========================================================= */
 
 async function verificarMigracao() {
+    if (!perfilUsuario.administrador) return; // só administrador pode enviar dados
+
     if (sessionStorage.getItem(MIGRACAO.chaveDispensada)) return;
 
     const qtdEncomendas = lerEncomendasLocais().length;

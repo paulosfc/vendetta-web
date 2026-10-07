@@ -5,9 +5,8 @@
    Logo, 1 minuto de jogo = 10 segundos reais
    e 1 segundo real = 6 segundos de jogo.
 
-   A pessoa informa o horário do jogo (e, se quiser, a hora de
-   Brasília em que viu esse horário). O programa descobre quando
-   será meia-noite no jogo. As meias-noites se repetem a cada
+   A pessoa informa o horário do jogo (que vale a partir de AGORA).
+   O programa descobre quando será meia-noite no jogo. As meias-noites se repetem a cada
    24 horas de jogo = 4 horas reais.
 ========================================================= */
 
@@ -90,21 +89,6 @@ function formatarHoraJogo(segundosDoDia) {
    CÁLCULO
 ========================================================= */
 
-// Converte "HH:MM" de Brasília (de hoje) em um instante.
-// Em branco = agora. Se o horário estiver mais de 5 min no futuro,
-// considera que foi visto ontem (ex.: visto 23:58, agora 00:02).
-function instanteDaReferencia(textoHora, agora) {
-    if (!textoHora) return agora;
-
-    const [h, m] = textoHora.split(":").map(Number);
-    const b = partesBrasilia(agora);
-
-    let segundosDesde = (b.h * 3600 + b.m * 60 + b.s) - (h * 3600 + m * 60);
-    if (segundosDesde < -300) segundosDesde += 86400;
-
-    return agora - (agora % 1000) - segundosDesde * 1000;
-}
-
 // Próxima meia-noite do jogo (instante real), a partir da referência.
 function proximaMeiaNoite(referencia, agora) {
     const minutosAteMeiaNoite = (1440 - referencia.minutoJogo) % 1440;
@@ -131,7 +115,6 @@ function calcularHorarioPista(evento) {
     evento.preventDefault();
 
     const horarioJogo = document.getElementById("horarioJogo").value;
-    const horarioReferencia = document.getElementById("horarioReferencia").value;
 
     if (!horarioJogo) {
         alert("Informe o horário do jogo.");
@@ -142,7 +125,7 @@ function calcularHorarioPista(evento) {
 
     referenciaHorario = {
         minutoJogo: h * 60 + m,
-        instanteMs: instanteDaReferencia(horarioReferencia, Date.now())
+        instanteMs: Date.now()
     };
 
     localStorage.setItem(CHAVE_HORARIO_PISTA, JSON.stringify(referenciaHorario));

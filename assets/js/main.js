@@ -10,5 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarEncomendas();
     carregarPerimetros();
     iniciarHorarioPista();
-    verificarMigracao();
+    carregarCategoriasCrafts();
+    mostrarCrafts();
+    carregarRotas();
+    carregarPerfil().then(verificarMigracao);
 });

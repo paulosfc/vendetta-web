@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="assets/css/encomendas.css">
     <link rel="stylesheet" href="assets/css/perimetros.css">
     <link rel="stylesheet" href="assets/css/horario.css">
+    <link rel="stylesheet" href="assets/css/crafts.css">
+    <link rel="stylesheet" href="assets/css/rotas.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <script src="assets/js/config.js"></script>
     <script src="assets/js/auth.js"></script>
@@ -30,18 +32,25 @@
                 <button class="menu-btn active" data-page="calculadora" onclick="mostrarPagina('calculadora', this)">
                     <span class="menu-icon">⌂</span><span>Calculadora</span>
                 </button>
+                <button class="menu-btn" data-page="crafts" onclick="mostrarPagina('crafts', this)">
+                    <span class="menu-icon">▤</span><span>Crafts</span>
+                </button>
                 <button class="menu-btn" data-page="encomendas" onclick="mostrarPagina('encomendas', this)">
                     <span class="menu-icon">▣</span><span>Encomendas</span>
                 </button>
                 <button class="menu-btn" data-page="perimetros" onclick="mostrarPagina('perimetros', this)">
                     <span class="menu-icon">◎</span><span>Perímetros</span>
                 </button>
+                <button class="menu-btn" data-page="rotas" onclick="mostrarPagina('rotas', this)">
+                    <span class="menu-icon">➜</span><span>Rotas</span>
+                </button>
                 <button class="menu-btn" data-page="horario" onclick="mostrarPagina('horario', this)">
                     <span class="menu-icon">◷</span><span>Horário de Pista</span>
                 </button>
             </nav>
             <div class="sidebar-bottom">
-                <div class="sidebar-user">Olá, <strong id="usuarioLogado">Usuário</strong></div>
+                <div class="sidebar-user">Olá, <strong id="usuarioLogado">Usuário</strong>
+                    <span id="usuarioPapel" class="usuario-papel"></span></div>
                 <button type="button" class="sidebar-logout" onclick="logout()">↪ <span>Sair</span></button>
             </div>
         </aside>
@@ -51,7 +60,7 @@
             </header>
     <main class="container">
         <!-- AVISO: dados antigos salvos só neste navegador -->
-        <div id="avisoMigracao" class="aviso-app hidden">
+        <div id="avisoMigracao" class="aviso-app so-admin hidden">
             <div>
                 <strong>Dados antigos encontrados neste navegador</strong>
                 <p id="avisoMigracaoTexto"></p>
@@ -161,7 +170,7 @@
                         Crie e acompanhe as encomendas dos produtos.
                     </p>
                 </div>
-                <button type="button" class="btn-primary" onclick="abrirModalEncomenda()">
+                <button type="button" class="btn-primary so-admin" onclick="abrirModalEncomenda()">
                     + Nova Encomenda
                 </button>
             </div>
@@ -389,8 +398,8 @@
                         </div>
                         <div class="perimetro-actions">
                             <button type="button" class="btn-editar-perimetro" onclick="abrirImagemPerimetro()">Ampliar</button>
-                            <button type="button" class="btn-editar-perimetro" onclick="renomearPerimetro()">Renomear</button>
-                            <button type="button" class="btn-excluir-perimetro" onclick="excluirPerimetro()">Excluir</button>
+                            <button type="button" class="btn-editar-perimetro so-admin" onclick="renomearPerimetro()">Renomear</button>
+                            <button type="button" class="btn-excluir-perimetro so-admin" onclick="excluirPerimetro()">Excluir</button>
                         </div>
                     </div>
 
@@ -402,7 +411,7 @@
             </div>
 
             <!-- ADICIONAR -->
-            <div class="card">
+            <div class="card so-admin" id="cardAdicionarPerimetro">
                 <h2>Adicionar perímetro</h2>
 
                 <form id="formPerimetro" onsubmit="salvarPerimetro(event)">
@@ -457,11 +466,6 @@
                             <input type="time" id="horarioJogo" step="60" required>
                         </div>
 
-                        <div class="form-group">
-                            <label for="horarioReferencia">Visto em Brasília às (opcional)</label>
-                            <input type="time" id="horarioReferencia" step="60">
-                            <small class="horario-dica">Deixe em branco para usar o horário de agora.</small>
-                        </div>
                     </div>
 
                     <button type="submit" class="btn-primary">Calcular</button>
@@ -498,6 +502,88 @@
 
         </section>
 
+
+        <!-- ======================================
+             CRAFTS (somente visualização; dados em dados-crafts.js)
+        ======================================= -->
+
+        <section id="pagina-crafts" class="pagina hidden">
+
+            <div class="page-title">
+                <span class="result-label">CRAFTS</span>
+                <h1>Crafts</h1>
+                <p>Consulte o que cada craft produz e os materiais necessários.</p>
+            </div>
+
+            <div class="card crafts-filtros">
+                <div class="form-group">
+                    <label for="pesquisaCraft">Pesquisar</label>
+                    <input type="text" id="pesquisaCraft" placeholder="Nome do craft ou do material..." oninput="mostrarCrafts()">
+                </div>
+
+                <div class="form-group">
+                    <label for="filtroCategoriaCraft">Categoria</label>
+                    <select id="filtroCategoriaCraft" onchange="mostrarCrafts()">
+                        <option value="">Todas as categorias</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="listaCrafts" class="crafts-grid"></div>
+            <div id="craftsVazio" class="perimetro-vazio hidden"></div>
+
+        </section>
+
+        <!-- ======================================
+             ROTAS (somente visualização; dados em dados-rotas.js)
+        ======================================= -->
+
+        <section id="pagina-rotas" class="pagina hidden">
+
+            <div class="page-title">
+                <span class="result-label">ROTAS</span>
+                <h1>Rotas</h1>
+                <p>Escolha uma rota para ver a imagem.</p>
+            </div>
+
+            <div class="card">
+                <h2>Visualizar rota</h2>
+
+                <div class="form-group">
+                    <label for="rotaSelect">Rota</label>
+                    <select id="rotaSelect" onchange="mostrarRota()">
+                        <option value="">Selecione uma rota</option>
+                    </select>
+                </div>
+
+                <div id="rotaVazio" class="perimetro-vazio"></div>
+
+                <div id="rotaViewer" class="perimetro-viewer hidden">
+                    <div class="perimetro-viewer-header">
+                        <div>
+                            <h3 id="rotaNome"></h3>
+                            <small id="rotaDescricao"></small>
+                        </div>
+                        <div class="perimetro-actions">
+                            <button type="button" class="btn-editar-perimetro" onclick="abrirImagemRota()">Ampliar</button>
+                        </div>
+                    </div>
+
+                    <div class="perimetro-imagem-wrap">
+                        <p id="rotaAviso" class="perimetro-carregando hidden"></p>
+                        <img id="rotaImagem" alt="" onclick="abrirImagemRota()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- AMPLIAR -->
+            <div id="rotaLightbox" class="perimetro-lightbox hidden" onclick="fecharImagemRota()">
+                <button type="button" class="perimetro-lightbox-fechar" aria-label="Fechar" onclick="fecharImagemRota()">×</button>
+                <img id="rotaLightboxImg" alt="">
+            </div>
+
+        </section>
+
     </main>
     <!-- ==========================================
          FOOTER
@@ -515,6 +601,10 @@
     <script src="assets/js/encomendas.js"></script>
     <script src="assets/js/perimetros.js"></script>
     <script src="assets/js/horario.js"></script>
+    <script src="assets/js/dados-crafts.js"></script>
+    <script src="assets/js/crafts.js"></script>
+    <script src="assets/js/dados-rotas.js"></script>
+    <script src="assets/js/rotas.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/migracao.js"></script>
     <script src="assets/js/main.js"></script>

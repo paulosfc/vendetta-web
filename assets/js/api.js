@@ -22,8 +22,20 @@ async function criarErroApi(resposta) {
         // resposta sem JSON
     }
 
-    const mensagem = corpo.message || corpo.msg || corpo.error_description || corpo.error || `Erro ${resposta.status}`;
-    return new ErroApi(mensagem, resposta.status, corpo.code || corpo.error_code);
+    let mensagem = corpo.message || corpo.msg || corpo.error_description || corpo.error || `Erro ${resposta.status}`;
+    const codigo = corpo.code || corpo.error_code;
+    const texto = String(mensagem).toLowerCase();
+
+    // Erros de permissão: explica a causa e a solução
+    if (texto.includes("permission denied for table") || texto.includes("permission denied for schema")) {
+        mensagem += " — faltam permissões no banco. No Supabase (SQL Editor), rode o arquivo banco.sql atualizado.";
+    } else if (texto.includes("row-level security")) {
+        mensagem += " — sem permissão para esta ação. Sua conta pode ser somente leitura. Se você é o administrador, rode o banco.sql no SQL Editor.";
+    } else if (texto.includes("could not find the table") || texto.includes("does not exist")) {
+        mensagem += " — a tabela não existe. No Supabase (SQL Editor), rode o arquivo banco.sql.";
+    }
+
+    return new ErroApi(mensagem, resposta.status, codigo);
 }
 
 async function fazerRequisicao(caminho, opcoes, token) {
@@ -78,6 +90,11 @@ async function apiFetch(caminho, opcoes = {}) {
    BANCO DE DADOS (PostgREST)
 ========================================================= */
 
+// Quando uma conta SEM permissão tenta alterar/excluir, o banco não dá erro:
+// responde "0 linhas afetadas". Tratamos isso como falta de permissão.
+const MENSAGEM_SEM_LINHAS =
+    "Sem permissão para alterar este registro (conta somente leitura?) ou ele já não existe.";
+
 const banco = {
     async listar(tabela, consulta = "select=*") {
         const resposta = await apiFetch(`/rest/v1/${tabela}?${consulta}`);
@@ -105,7 +122,7 @@ const banco = {
         if (!resposta.ok) throw await criarErroApi(resposta);
 
         const linhas = await resposta.json();
-        if (!linhas.length) throw new ErroApi("Registro não encontrado (talvez já tenha sido excluído).", 404);
+        if (!linhas.length) throw new ErroApi(MENSAGEM_SEM_LINHAS, 403);
         return linhas[0];
     },
 
@@ -115,6 +132,9 @@ const banco = {
             headers: { Prefer: "return=representation" }
         });
         if (!resposta.ok) throw await criarErroApi(resposta);
+
+        const linhas = await resposta.json();
+        if (!linhas.length) throw new ErroApi(MENSAGEM_SEM_LINHAS, 403);
     }
 };
 
@@ -175,4 +195,40 @@ function nomeArquivoSeguro(arquivo) {
 
     const aleatorio = Math.random().toString(36).slice(2, 8);
     return `${Date.now()}-${aleatorio}${extensao ? "." + extensao : ""}`;
+}
+
+/* =========================================================
+   PERFIL (administrador x somente leitura)
+
+   A regra de verdade fica no banco (RLS). Aqui só escondemos
+   os botões que a pessoa não conseguiria usar.
+   Se a função do banco ainda não existir, mantém tudo visível:
+   quem decide é o banco.
+========================================================= */
+
+const perfilUsuario = { administrador: true };
+
+function aplicarPerfil() {
+    document.body.classList.toggle("somente-leitura", !perfilUsuario.administrador);
+
+    const papel = document.getElementById("usuarioPapel");
+    if (papel) papel.textContent = perfilUsuario.administrador ? "Administrador" : "Somente leitura";
+}
+
+async function carregarPerfil() {
+    try {
+        const resposta = await apiFetch("/rest/v1/rpc/eh_administrador", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: "{}"
+        });
+
+        if (resposta.ok) {
+            perfilUsuario.administrador = (await resposta.json()) === true;
+        }
+    } catch (erro) {
+        console.warn("Não foi possível verificar o perfil:", erro);
+    }
+
+    aplicarPerfil();
 }

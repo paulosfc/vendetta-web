@@ -6,20 +6,11 @@
 }
 
 .horario-campos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    max-width: 320px;
 }
 
 #pagina-horario input[type="time"] {
     color-scheme: dark;
-}
-
-.horario-dica {
-    display: block;
-    margin-top: 6px;
-    color: #777777;
-    font-size: 12px;
 }
 
 /* Resultado */
@@ -117,7 +108,7 @@
 
 @media (max-width: 600px) {
     .horario-campos {
-        grid-template-columns: 1fr;
+        max-width: none;
     }
 
     .horario-grande {

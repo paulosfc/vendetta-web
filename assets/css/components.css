@@ -215,3 +215,18 @@ button {
         flex-direction: column;
     }
 }
+
+/* ==========================================
+   CONTA SOMENTE LEITURA
+   (a classe é aplicada no <body> pelo api.js)
+========================================== */
+.somente-leitura .so-admin {
+    display: none !important;
+}
+
+.usuario-papel {
+    display: block;
+    margin-top: 4px;
+    color: #777777;
+    font-size: 12px;
+}

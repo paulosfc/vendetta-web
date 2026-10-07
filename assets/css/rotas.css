@@ -1,0 +1,15 @@
+/* ==========================================
+   ROTAS
+   Usa o mesmo visual dos Perímetros (perimetros.css).
+========================================== */
+#pagina-rotas .card h2 {
+    margin-bottom: 20px;
+}
+
+#rotaDescricao {
+    display: block;
+    max-width: 640px;
+    color: var(--gray);
+    font-size: 13px;
+    line-height: 1.5;
+}

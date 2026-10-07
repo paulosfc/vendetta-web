@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#161616"/>
+  <g stroke="#2a2a2a" stroke-width="2">
+    <path d="M0 140H1200M0 280H1200M0 420H1200M0 560H1200M240 0V700M480 0V700M720 0V700M960 0V700"/>
+  </g>
+  <path d="M120 580 C 320 520, 360 300, 560 320 S 900 200, 1080 120" fill="none" stroke="#ff7a00" stroke-width="10" stroke-linecap="round" stroke-dasharray="26 18"/>
+  <circle cx="120" cy="580" r="18" fill="#ff7a00"/>
+  <circle cx="1080" cy="120" r="18" fill="#ffffff"/>
+  <text x="600" y="640" font-family="Arial, sans-serif" font-size="34" font-weight="bold" fill="#ff7a00" text-anchor="middle">IMAGEM DE EXEMPLO</text>
+  <text x="600" y="676" font-family="Arial, sans-serif" font-size="22" fill="#9a9a9a" text-anchor="middle">Coloque suas imagens em assets/rotas e liste em dados-rotas.js</text>
+</svg>
