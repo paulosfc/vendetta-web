@@ -168,7 +168,7 @@ async function obterTokenValido() {
 }
 
 /* =========================================================
-   LOGOUT / USUÁRIO
+   LOGOUT
 ========================================================= */
 
 async function logout() {
@@ -187,11 +187,4 @@ async function logout() {
 
     limparSessao();
     window.location.href = AUTH.paginaLogin;
-}
-
-function mostrarUsuarioLogado() {
-    const elemento = document.getElementById("usuarioLogado");
-    const sessao = lerSessao();
-
-    if (elemento) elemento.textContent = sessao && sessao.email ? sessao.email : "Usuário";
 }

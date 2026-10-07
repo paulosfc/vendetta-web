@@ -198,36 +198,62 @@ function nomeArquivoSeguro(arquivo) {
 }
 
 /* =========================================================
-   PERFIL (administrador x somente leitura)
+   PERFIL (função da pessoa logada)
 
-   A regra de verdade fica no banco (RLS). Aqui só escondemos
-   os botões que a pessoa não conseguiria usar.
-   Se a função do banco ainda não existir, mantém tudo visível:
-   quem decide é o banco.
+   Funções: administrador, hierarquia e membro.
+   Hoje só o ADMINISTRADOR cria, edita e exclui; hierarquia e
+   membro apenas visualizam.
+
+   A regra de verdade fica no banco (RLS). Aqui só mostramos o
+   nome da função e escondemos os botões que a pessoa não
+   conseguiria usar.
 ========================================================= */
 
-const perfilUsuario = { administrador: true };
+const ROTULOS_PAPEL = {
+    administrador: "Administrador",
+    hierarquia: "Hierarquia",
+    membro: "Membro da Vendetta"
+};
+
+// papel null = não deu para descobrir (banco antigo ou sem conexão)
+const perfilUsuario = { papel: null, administrador: true };
+
+async function chamarFuncaoDoBanco(nome) {
+    const resposta = await apiFetch(`/rest/v1/rpc/${nome}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "{}"
+    });
+
+    return resposta.ok ? resposta.json() : undefined;
+}
 
 function aplicarPerfil() {
     document.body.classList.toggle("somente-leitura", !perfilUsuario.administrador);
+    document.body.dataset.papel = perfilUsuario.papel || "";
 
-    const papel = document.getElementById("usuarioPapel");
-    if (papel) papel.textContent = perfilUsuario.administrador ? "Administrador" : "Somente leitura";
+    const nome = document.getElementById("usuarioLogado");
+    if (nome) nome.textContent = perfilUsuario.papel ? ROTULOS_PAPEL[perfilUsuario.papel] : "Usuário";
 }
 
 async function carregarPerfil() {
     try {
-        const resposta = await apiFetch("/rest/v1/rpc/eh_administrador", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: "{}"
-        });
+        const papel = await chamarFuncaoDoBanco("meu_papel");
 
-        if (resposta.ok) {
-            perfilUsuario.administrador = (await resposta.json()) === true;
+        if (typeof papel === "string") {
+            perfilUsuario.papel = ROTULOS_PAPEL[papel] ? papel : "membro";
+            perfilUsuario.administrador = perfilUsuario.papel === "administrador";
+        } else {
+            // Banco ainda na versão anterior (só sabe se é administrador)
+            const administrador = await chamarFuncaoDoBanco("eh_administrador");
+
+            if (typeof administrador === "boolean") {
+                perfilUsuario.administrador = administrador;
+                perfilUsuario.papel = administrador ? "administrador" : "membro";
+            }
         }
     } catch (erro) {
-        console.warn("Não foi possível verificar o perfil:", erro);
+        console.warn("Não foi possível verificar a função do usuário:", erro);
     }
 
     aplicarPerfil();
