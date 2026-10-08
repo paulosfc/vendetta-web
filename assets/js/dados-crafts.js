@@ -15,6 +15,14 @@
      observacao  texto opcional (deixe "" se não quiser)
 
    COMO REMOVER: apague o bloco { ... } inteiro, com a vírgula.
+
+   COMO O SITE CALCULA
+   Ao clicar num craft, a pessoa digita a quantidade desejada e o site
+   divide por "produz" (arredondando para cima) e multiplica os
+   "materiais". Se um material tem o MESMO NOME de outro craft da lista,
+   ele é tratado como craftável: o site mostra também os crafts
+   intermediários e o total em matérias-primas. Por isso escreva o nome
+   do material exatamente igual ao nome do craft.
    Cuidado com aspas e vírgulas: toda linha termina com vírgula.
 ========================================================= */
 
@@ -26,8 +34,8 @@ const CRAFTS = [
         materiais: {
             "M1911": 1,
             "Real Sujo": 1000,
-            // "Parafusos Pequenos": 1,
-            // "Caixa de Aperfeiçoamento: Pistola": 2,
+            "Parafusos Pequenos": 1,
+            "Caixa de Aperfeiçoamento: Pistola": 2,
         },
         observacao: ""
     },
@@ -41,24 +49,6 @@ const CRAFTS = [
         },
         observacao: ""
     },
-
-    {
-        nome: "M4A1",
-        categoria: "Armas",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 5000,
-            "Engrenagem": 10,
-            "Peças de Arma Pesada": 4,
-            "Tubo de Plástico.": 10,
-            "Sucata de Metal": 7375,
-            "Parafusos Pequenos.": 10,
-        },
-        observacao: "",
-    },
-
-
-
     {
         nome: "Munição de Fuzil",
         categoria: "Munições",
@@ -70,19 +60,6 @@ const CRAFTS = [
         },
         observacao: ""
     },
-
-    {
-        nome: "Munição de Pistola",
-        categoria: "Munições",
-        produz: 250,
-        materiais: {
-            "Estojo de Munição: Pistola": 250,
-            "Real Sujo": 250,
-            "Frasco de Pólvora": 24,
-        },
-        observacao: ""
-    },
-
     {
         nome: "Munição de Sub",
         categoria: "Munições",
@@ -94,9 +71,17 @@ const CRAFTS = [
         },
         observacao: ""
     },
-        
-        
-
+    {
+        nome: "Munição de Pistola",
+        categoria: "Munições",
+        produz: 250,
+        materiais: {
+            "Estojo de Munição: Pistola": 250,
+            "Real Sujo": 250,
+            "Frasco de Pólvora": 24,
+        },
+        observacao: ""
+    },
     {
         nome: "Estojo de Munição: Fuzil",
         categoria: "Estojos",
@@ -108,19 +93,6 @@ const CRAFTS = [
         },
         observacao: ""
     },
-
-    {
-        nome: "Estojo de Munição: Pistola",
-        categoria: "Estojos",
-        produz: 250,
-        materiais: {
-            "Alumínio": 75,
-            "Cobre": 80,
-            "Real Sujo": 250,
-        },
-        observacao: ""
-    },
-    
     {
         nome: "Estojo de Munição: SUB",
         categoria: "Estojos",
@@ -132,9 +104,17 @@ const CRAFTS = [
         },
         observacao: ""
     },
-
-
-
+    {
+        nome: "Estojo de Munição: Pistola",
+        categoria: "Estojos",
+        produz: 250,
+        materiais: {
+            "Alumínio": 75,
+            "Cobre": 80,
+            "Real Sujo": 250,
+        },
+        observacao: ""
+    },
     {
         nome: "Peças de Arma Leve",
         categoria: "Peças e componentes",
@@ -149,162 +129,5 @@ const CRAFTS = [
             "Peças de Armas": 2,
         },
         observacao: ""
-    },
-
-    {
-        nome: "Peças de Arma Pesada",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Alumínio": 75,
-            "Cobre": 75,
-            "Real Sujo": 1000,
-            "Plástico": 125,
-            "Corpo de Rifle": 1,
-            "Borracha": 125,
-            "Peças de Armas": 2,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Corpo de Rifle",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 1000,
-            "Peças de Armas": 6,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Tubo de Plástico",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 300,
-            "Plástico": 10,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Porcas de Parafuso",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 300,
-            "Barra de Ferro": 3,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Porcas de Parafusos Pequenos",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 300,
-            "Barra de Ferro": 3,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Cabo de Alimentação",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Cobre": 3,
-            "Real Sujo": 300,
-            "Borracha": 2,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Parafusos",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 300,
-            "Barra de Ferro": 3,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Fios de Cobre",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Cobre": 10,
-            "Real Sujo": 300,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Pregos Pequenos",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 300,
-            "Barra de Ferro": 3,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Parafusos Pequenos",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Real Sujo": 300,
-            "Barra de Ferro": 3,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Tablet de Roubo Avançado",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Alumínio": 50,
-            "Celular Seguro": 1,
-            "Cobre": 50,
-            "Componentes Eletrônicos": 4,
-            "Cabo de Alimentação": 2,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Celular Seguro",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Vidro": 5,
-            "Plástico": 5,
-            "Fita Adesiva": 1,
-            "Lixo Eletrônico": 1,
-        },
-        observacao: "",
-    },
-
-    {
-        nome: "Circuito Eletrônico",
-        categoria: "Peças e componentes",
-        produz: 1,
-        materiais: {
-            "Alumínio": 20,
-            "Celular Seguro": 1,
-            "Cobre": 20,
-            "Componentes Eletrônicos": 2,
-            "Cabo de Alimentação": 1,
-        },
-        observacao: "",
     },
 ];

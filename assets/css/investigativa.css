@@ -1,0 +1,128 @@
+/* ==========================================
+   INVESTIGATIVA
+========================================== */
+.investigativa-descricao {
+    margin: 0 0 20px;
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.investigativa-aviso {
+    padding: 4px 4px 0;
+}
+
+.investigativa-aviso-topo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.investigativa-aviso-topo h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.investigativa-icone {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 122, 0, 0.4);
+    border-radius: 12px;
+    background: rgba(255, 122, 0, 0.12);
+    color: var(--orange);
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.investigativa-texto {
+    margin: 0 0 18px;
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.investigativa-destino {
+    margin-bottom: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 122, 0, 0.35);
+    border-radius: 10px;
+    background: rgba(255, 122, 0, 0.07);
+}
+
+.investigativa-destino span {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--gray);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.investigativa-destino strong {
+    display: block;
+    color: var(--orange);
+    font-size: 22px;
+    overflow-wrap: anywhere;
+}
+
+.investigativa-destino small {
+    display: block;
+    margin-top: 6px;
+    color: #8a8a8a;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.investigativa-lista {
+    margin: 0 0 22px;
+    padding-left: 20px;
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.investigativa-lista .investigativa-perigo {
+    color: #ff9a4d;
+    font-weight: bold;
+}
+
+.investigativa-botao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.investigativa-config {
+    padding: 18px 20px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    background: #151515;
+}
+
+.investigativa-config strong {
+    color: var(--orange);
+}
+
+.investigativa-config p {
+    margin: 8px 0 0;
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .investigativa-aviso-topo h2 {
+        font-size: 18px;
+    }
+
+    .investigativa-destino strong {
+        font-size: 18px;
+    }
+}

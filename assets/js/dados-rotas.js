@@ -28,30 +28,8 @@
 
 const ROTAS = [
     {
-        nome: "Rota de Caixa Vermelha",
-        imagem: "assets/rotas/caixa-vermelha.png",
-    },
-
-    {
-      nome: "Rota de Containers do Sul",
-      imagem: "assets/rotas/containers-sul.png",
-    },
-
-    {
-      nome: "Rota de Caixa Verde e Amarela - Parte 1",
-      imagem: "assets/rotas/rota-verde-amarela-1.png",
-      descricao: "Primeira parte da rota começando pelo Sul."
-    },
-
-    {
-      nome: "Rota de Caixa Verde e Amarela - Parte 2",
-      imagem: "assets/rotas/rota-verde-amarela-2.png",
-      descricao: "Segunda parte da rota começando pelo Sul."
-    },
-
-    {
-      nome: "Rota de Caixa Verde e Amarela - Parte 3",
-      imagem: "assets/rotas/rota-verde-amarela-3.png",
-      descricao: "Terceira parte da rota começando pelo Sul."
+        nome: "Rota de exemplo",
+        imagem: "assets/rotas/exemplo.svg",
+        descricao: "Imagem de exemplo. Apague este bloco quando colocar as suas rotas."
     },
 ];
