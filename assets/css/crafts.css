@@ -126,3 +126,156 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================
+   CARD CLICÁVEL + JANELA DE CÁLCULO
+========================================== */
+.craft-card {
+    cursor: pointer;
+}
+
+.craft-card:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+}
+
+.craft-dica {
+    margin: 14px 0 0;
+    color: #6f6f6f;
+    font-size: 12px;
+    text-align: right;
+    transition: 0.2s;
+}
+
+.craft-card:hover .craft-dica,
+.craft-card:focus-visible .craft-dica {
+    color: var(--orange);
+}
+
+.craft-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgb(0 0 0 / 72%);
+}
+
+.craft-modal {
+    position: relative;
+    width: min(640px, 100%);
+    max-height: 92vh;
+    padding: 28px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--black-light);
+    animation: aparecer 0.2s ease;
+}
+
+.craft-modal h2 {
+    margin: 0 44px 6px 0;
+    font-size: 24px;
+}
+
+.craft-modal-sub {
+    margin: 0 0 20px;
+    color: var(--gray);
+    font-size: 14px;
+}
+
+.craft-modal-fechar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #3c3c3c;
+    border-radius: 8px;
+    background: #252525;
+    color: var(--white);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.craft-modal-fechar:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+.craft-aviso {
+    padding: 14px;
+    border: 1px solid rgba(255, 80, 80, 0.35);
+    border-radius: 8px;
+    background: rgba(255, 80, 80, 0.08);
+    color: #ff7777;
+    font-size: 14px;
+}
+
+.craft-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.craft-resumo-item {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #151515;
+}
+
+.craft-resumo-item span {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--gray);
+    font-size: 12px;
+}
+
+.craft-resumo-item strong {
+    color: var(--orange);
+    font-size: 20px;
+    font-variant-numeric: tabular-nums;
+}
+
+.craft-secao {
+    margin-bottom: 20px;
+}
+
+.craft-secao:last-child {
+    margin-bottom: 0;
+}
+
+.craft-secao-titulo {
+    margin: 0 0 6px;
+    color: var(--gray);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+    .craft-modal {
+        padding: 22px 18px;
+    }
+
+    .craft-resumo {
+        gap: 8px;
+    }
+
+    .craft-resumo-item {
+        padding: 10px;
+    }
+
+    .craft-resumo-item span {
+        font-size: 11px;
+        line-height: 1.3;
+    }
+
+    .craft-resumo-item strong {
+        font-size: 17px;
+    }
+}

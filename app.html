@@ -482,7 +482,7 @@
             <div class="page-title">
                 <span class="result-label">CRAFTS</span>
                 <h1>Crafts</h1>
-                <p>Consulte o que cada craft produz e os materiais necessários.</p>
+                <p>Consulte os materiais de cada craft. Clique em um craft para calcular a quantidade necessária.</p>
             </div>
 
             <div class="card crafts-filtros">
@@ -501,6 +501,24 @@
 
             <div id="listaCrafts" class="crafts-grid"></div>
             <div id="craftsVazio" class="perimetro-vazio hidden"></div>
+
+            <!-- JANELA: quantidade e materiais necessários -->
+            <div id="craftModal" class="craft-modal-overlay hidden" onclick="fecharCraft(event)">
+                <div class="craft-modal" role="dialog" aria-modal="true" aria-labelledby="craftModalTitulo">
+                    <button type="button" class="craft-modal-fechar" aria-label="Fechar" onclick="fecharCraft()">×</button>
+
+                    <span id="craftModalCategoria" class="craft-categoria"></span>
+                    <h2 id="craftModalTitulo"></h2>
+                    <p id="craftModalProduz" class="craft-modal-sub"></p>
+
+                    <div class="form-group">
+                        <label for="craftQuantidade">Quantidade desejada</label>
+                        <input type="number" id="craftQuantidade" min="1" step="1" inputmode="numeric" oninput="calcularCraftSelecionado()">
+                    </div>
+
+                    <div id="craftResultado"></div>
+                </div>
+            </div>
 
         </section>
 
