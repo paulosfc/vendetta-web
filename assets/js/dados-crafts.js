@@ -41,6 +41,9 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
+
+
     {
         nome: "Munição de Fuzil",
         categoria: "Munições",
@@ -74,6 +77,9 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
+
+
     {
         nome: "Estojo de Munição: Fuzil",
         categoria: "Estojos",
@@ -107,6 +113,9 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
+
+
     {
         nome: "Peças de Arma Leve",
         categoria: "Peças e componentes",
@@ -121,5 +130,50 @@ const CRAFTS = [
             "Peças de Armas": 2,
         },
         observacao: ""
+    },
+
+    {
+        nome: "Tubo de Plástico",
+        categoria: "Peças e componentes",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 300,
+            "Plástico": 10,
+        },
+        observacao: "",
+    },
+
+    {
+        nome: "Porcas de Parafuso",
+        categoria: "Peças e componentes",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 300,
+            "Barra de Ferro": 3,
+        },
+        observacao: "",
+    },
+
+    {
+        nome: "Porcas de Parafusos Pequenos",
+        categoria: "Peças e componentes",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 300,
+            "Barra de Ferro": 3,
+        },
+        observacao: "",
+    },
+
+    {
+        nome: "Cabo de Alimentação",
+        categoria: "Peças e componentes",
+        produz: 1,
+        materiais: {
+            "Cobre": 3,
+            "Real Sujo": 300,
+            "Borracha": 2,
+        },
+        observacao: "",
     },
 ];

@@ -30,8 +30,98 @@
 
 const PERIMETROS = [
     {
-        nome: "Perímetro de exemplo",
-        imagem: "assets/perimetros/exemplo.svg",
-        descricao: "Imagem de exemplo. Apague este bloco quando colocar os seus perímetros."
+        nome: "Loja de Departamento Vanilla",
+        imagem: "assets/perimetros/loja-vanilla.webp",
+        // descricao: "Imagem de exemplo. Apague este bloco quando colocar os seus perímetros."
+    },
+
+    {
+      nome: "Loja de Departamento Praia",
+      imagem: "assets/perimetros/loja-praia.webp",
+    },
+
+    {
+      nome: "Loja de Departamento Mirror Park",
+      imagem: "assets/perimetros/loja-mirror.webp",
+    },
+
+    {
+      nome: "Loja de Departamento Grape",
+      imagem: "assets/perimetros/loja-grape.webp",
+    },
+
+    {
+      nome: "Loja de Departamento Central",
+      imagem: "assets/perimetros/loja-central.webp",
+    },
+
+    {
+      nome: "Loja de Departamento Ballas / MegaMall",
+      imagem: "assets/perimetros/loja-ballas.webp",
+    },
+
+    {
+      nome: "Loja de Departamento Ark",
+      imagem: "assets/perimetros/loja-ark.webp",
+    },
+
+    {
+      nome: "Loja de Departamento China",
+      imagem: "assets/perimetros/loja-china.webp",
+    },
+
+    {
+      nome: "Loja de Departamento Foguete / Pops",
+      imagem: "assets/perimetros/loja-foguete.webp",
+    },
+
+    {
+      nome: "Banco de Paleto",
+      imagem: "assets/perimetros/banco-paleto.webp",
+    },
+
+    {
+      nome: "Fleeca Praia",
+      imagem: "assets/perimetros/fleeca-praia.webp",
+    },
+
+    {
+      nome: "Banco Central",
+      imagem: "assets/perimetros/banco-central.avif",
+    },
+
+    {
+      nome: "Joalheria",
+      imagem: "assets/perimetros/joalheria.avif",
+    },
+
+    {
+      nome: "Açougue",
+      imagem: "assets/perimetros/acougue.webp",
+    },
+
+    {
+      nome: "Galinheiro",
+      imagem: "assets/perimetros/galinheiro.webp",
+    },
+
+    {
+      nome: "Aeroporto do Norte",
+      imagem: "assets/perimetros/aeroporto.webp",
+    },
+
+    {
+      nome: "Zancudo",
+      imagem: "assets/perimetros/zancudo.webp",
+    },
+
+    {
+      nome: "Ferro Velho do Norte",
+      imagem: "assets/perimetros/ferro-norte.webp",
+    },
+
+    {
+      nome: "Ferro Velho do Sul",
+      imagem: "assets/perimetros/ferro-sul.webp",
     },
 ];
