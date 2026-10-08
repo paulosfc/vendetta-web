@@ -3,7 +3,6 @@
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarItens();
     carregarProdutosEncomenda();
     carregarFiltroProdutosEncomenda();
     carregarEncomendas();

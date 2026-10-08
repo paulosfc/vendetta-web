@@ -19,10 +19,6 @@ function mostrarPagina(pagina, botao) {
     if (botao) botao.classList.add("active");
 
     // Ações específicas de cada página
-    if (pagina === "calculadora") {
-        carregarItens();
-    }
-
     if (pagina === "encomendas") {
         carregarProdutosEncomenda();
         carregarFiltroProdutosEncomenda();
