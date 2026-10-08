@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="assets/css/perimetros.css">
     <link rel="stylesheet" href="assets/css/horario.css">
     <link rel="stylesheet" href="assets/css/crafts.css">
+    <link rel="stylesheet" href="assets/css/crafts-calculo.css">
     <link rel="stylesheet" href="assets/css/rotas.css">
-    <link rel="stylesheet" href="assets/css/investigativa.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <script src="assets/js/config.js"></script>
     <script src="assets/js/auth.js"></script>
@@ -24,16 +24,13 @@
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
     <div class="app-layout">
         <aside class="sidebar" id="sidebar">
-            <a class="sidebar-brand" href="#" onclick="mostrarPagina('calculadora', document.querySelector('[data-page=calculadora]')); return false;">
+            <a class="sidebar-brand" href="#" onclick="mostrarPagina('crafts', document.querySelector('[data-page=crafts]')); return false;">
                 <span class="brand-name">VENDETTA</span>
                 <span class="brand-subtitle">WEB</span>
             </a>
             <div class="sidebar-section-label">MENU PRINCIPAL</div>
             <nav class="sidebar-menu" aria-label="Menu principal">
-                <button class="menu-btn active" data-page="calculadora" onclick="mostrarPagina('calculadora', this)">
-                    <span class="menu-icon">⌂</span><span>Calculadora</span>
-                </button>
-                <button class="menu-btn" data-page="crafts" onclick="mostrarPagina('crafts', this)">
+                <button class="menu-btn active" data-page="crafts" onclick="mostrarPagina('crafts', this)">
                     <span class="menu-icon">▤</span><span>Crafts</span>
                 </button>
                 <button class="menu-btn" data-page="encomendas" onclick="mostrarPagina('encomendas', this)">
@@ -44,9 +41,6 @@
                 </button>
                 <button class="menu-btn" data-page="rotas" onclick="mostrarPagina('rotas', this)">
                     <span class="menu-icon">➜</span><span>Rotas</span>
-                </button>
-                <button class="menu-btn" data-page="investigativa" onclick="mostrarPagina('investigativa', this)">
-                    <span class="menu-icon">◈</span><span>Investigativa</span>
                 </button>
                 <button class="menu-btn" data-page="horario" onclick="mostrarPagina('horario', this)">
                     <span class="menu-icon">◷</span><span>Horário de Pista</span>
@@ -74,91 +68,6 @@
             </div>
         </div>
 
-        <!-- ======================================
-             CALCULADORA
-        ======================================= -->
-        <section id="pagina-calculadora" class="pagina">
-            <div class="hero">
-                <h1>
-                    Calculadora de Craft
-                </h1>
-                <p>
-                    Escolha um item, informe a quantidade
-                    e veja todos os materiais necessários.
-                </p>
-            </div>
-            <!-- FORMULÁRIO -->
-            <div class="card">
-                <h2>
-                    Produzir item
-                </h2>
-                <div class="form-group">
-                    <label for="item">
-                        Item
-                    </label>
-                    <select id="item">
-                        <option value="">
-                            Selecione um item
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="quantity">
-                        Quantidade
-                    </label>
-                    <input type="number" id="quantity" min="1" value="1">
-                </div>
-                <button type="button" class="btn-primary" onclick="calcularCraft()">
-                    Calcular materiais
-                </button>
-            </div>
-            <!-- ==================================
-                 RESULTADO
-            =================================== -->
-            <section id="resultado" class="resultado hidden">
-                <div class="result-header">
-                    <div>
-                        <span class="result-label">
-                            RESULTADO
-                        </span>
-                        <h2 id="resultadoTitulo">
-                            Materiais necessários
-                        </h2>
-                    </div>
-                </div>
-                <!-- MATERIAIS DIRETOS E INTERMEDIÁRIOS -->
-                <div id="listaMateriais" class="materials"></div>
-                <!-- ==================================
-                     TOTAL POR MATERIAL
-                =================================== -->
-                <div id="totalMateriaisContainer" class="total-materiais">
-                    <h3>
-                        📊 Total Geral de Matéria-Prima
-                    </h3>
-                    <div id="listaTotalMateriais"></div>
-                </div>
-            </section>
-            <!-- ==================================
-                 VALORES
-            =================================== -->
-            <section id="resultadoValores" class="resultado valores hidden">
-                <div class="result-header">
-                    <div>
-                        <span class="result-label">
-                            VALORES
-                        </span>
-                        <h2>
-                            💰 Valores do Produto
-                        </h2>
-                    </div>
-                </div>
-                <div id="listaValores"></div>
-            </section>
-            <!-- LIMPAR -->
-            <button type="button" class="btn-secondary" onclick="limparCalculo()">
-                Limpar cálculo
-            </button>
-        </section>
 <!-- ENCOMENDAS  -->
         <section id="pagina-encomendas" class="pagina hidden">
             <div class="page-header">
@@ -481,12 +390,12 @@
              CRAFTS (somente visualização; dados em dados-crafts.js)
         ======================================= -->
 
-        <section id="pagina-crafts" class="pagina hidden">
+        <section id="pagina-crafts" class="pagina">
 
             <div class="page-title">
                 <span class="result-label">CRAFTS</span>
                 <h1>Crafts</h1>
-                <p>Consulte os materiais de cada craft. Clique em um craft para calcular a quantidade necessária.</p>
+                <p>Consulte os materiais de cada craft. Clique em um craft para calcular a quantidade, os intermediários, o total de matéria-prima e o valor.</p>
             </div>
 
             <div class="card crafts-filtros">
@@ -576,25 +485,6 @@
 
         </section>
 
-
-        <!-- ======================================
-             INVESTIGATIVA (leva a outro site; dados em dados-investigativa.js)
-        ======================================= -->
-
-        <section id="pagina-investigativa" class="pagina hidden">
-
-            <div class="page-title">
-                <span class="result-label">INVESTIGATIVA</span>
-                <h1>Investigativa</h1>
-                <p>Acesso ao site externo da Investigativa.</p>
-            </div>
-
-            <div class="card">
-                <div id="investigativaConteudo"></div>
-            </div>
-
-        </section>
-
     </main>
     <!-- ==========================================
          FOOTER
@@ -608,7 +498,6 @@
     <script src="assets/js/dados.js"></script>
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/navegacao.js"></script>
-    <script src="assets/js/calculadora.js"></script>
     <script src="assets/js/encomendas.js"></script>
     <script src="assets/js/dados-perimetros.js"></script>
     <script src="assets/js/perimetros.js"></script>
@@ -617,8 +506,6 @@
     <script src="assets/js/crafts.js"></script>
     <script src="assets/js/dados-rotas.js"></script>
     <script src="assets/js/rotas.js"></script>
-    <script src="assets/js/dados-investigativa.js"></script>
-    <script src="assets/js/investigativa.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/migracao.js"></script>
     <script src="assets/js/main.js"></script>

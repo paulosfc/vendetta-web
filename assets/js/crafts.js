@@ -6,10 +6,13 @@
    não precisa mexer aqui.
 
    Ao clicar num craft abre uma janela: a pessoa digita a
-   quantidade desejada e o site mostra os materiais necessários.
+   quantidade desejada e o site mostra os materiais necessários,
+   o cálculo de cada intermediário, o total de matéria-prima e
+   os valores (quando o produto tiver valor cadastrado).
 
    Depende de: dados-crafts.js (CRAFTS)
-               utils.js (formatarNumero)
+               dados.js (receitas, valoresPorProduto) - só para os valores
+               utils.js (formatarNumero, formatarDinheiro)
 ========================================================= */
 
 function craftsValidos() {
@@ -224,7 +227,19 @@ function calcularMateriaisDoCraft(craft, quantidade) {
         if (atual === craft) {
             resumo = { crafts, produzidas, sobra: produzidas - precisa };
         } else {
-            intermediarios.push({ nome: atual.nome, precisa, crafts, produzidas });
+            intermediarios.push({
+                nome: atual.nome,
+                precisa,
+                crafts,
+                produzidas,
+                materiais: Object.entries(atual.materiais).map(([nome, porCraft]) => ({
+                    nome,
+                    porCraft: Number(porCraft),
+                    crafts,
+                    quantidade: Number(porCraft) * crafts,
+                    craftavel: mapa.has(nome.toLowerCase())
+                }))
+            });
         }
 
         Object.entries(atual.materiais).forEach(([material, porCraft]) => {
@@ -244,6 +259,8 @@ function calcularMateriaisDoCraft(craft, quantidade) {
     const nomesDosCrafts = mapa;
     const diretos = Object.entries(craft.materiais).map(([nome, porCraft]) => ({
         nome,
+        porCraft: Number(porCraft),
+        crafts: resumo.crafts,
         quantidade: Number(porCraft) * resumo.crafts,
         craftavel: nomesDosCrafts.has(nome.toLowerCase())
     }));
@@ -254,6 +271,53 @@ function calcularMateriaisDoCraft(craft, quantidade) {
         intermediarios,
         totais: [...materiaPrima].map(([nome, quantidade]) => ({ nome, quantidade }))
     };
+}
+
+/* =========================================================
+   VALORES
+
+   Os valores continuam em dados.js (valoresPorProduto). Para um
+   craft ter valor, o nome dele precisa ser igual ao "nome" (ou à
+   chave) de um produto de dados.js. Também dá para colocar direto
+   no craft, em dados-crafts.js:
+
+     valores: { CNPJ: 30000, CPF: 30000, Parceria: 26000, Aliado: 23000 },
+
+   Craft sem valor cadastrado não mostra a seção de valores.
+========================================================= */
+
+const TIPOS_DE_VALOR = ["CNPJ", "CPF", "Parceria", "Aliado"];
+
+function precosDoCraft(craft) {
+    if (craft.valores && typeof craft.valores === "object") return craft.valores;
+
+    if (typeof valoresPorProduto === "undefined") return null;
+
+    const nome = craft.nome.trim().toLowerCase();
+    const chaves = Object.keys(valoresPorProduto);
+
+    // 1) nome do craft igual à chave do produto
+    let chave = chaves.find(c => c.toLowerCase() === nome);
+
+    // 2) nome do craft igual ao "nome" da receita do produto
+    if (!chave && typeof receitas !== "undefined") {
+        chave = chaves.find(c => receitas[c] && String(receitas[c].nome || "").trim().toLowerCase() === nome);
+    }
+
+    return chave ? valoresPorProduto[chave] : null;
+}
+
+function calcularValoresDoCraft(craft, quantidade) {
+    const precos = precosDoCraft(craft);
+    if (!precos) return [];
+
+    return TIPOS_DE_VALOR
+        .filter(tipo => Number(precos[tipo]) > 0)
+        .map(tipo => ({
+            tipo,
+            unitario: Number(precos[tipo]),
+            total: Number(precos[tipo]) * quantidade
+        }));
 }
 
 /* =========================================================
@@ -269,18 +333,19 @@ function criarElemento(tag, classe, texto) {
     return e;
 }
 
-function criarLinhaCraft(nome, valor, craftavel) {
+function criarLinhaCraft(nome, valor, craftavel, formula) {
     const item = criarElemento("li");
     const esquerda = criarElemento("span", "", nome);
 
     if (craftavel) esquerda.appendChild(criarElemento("em", "", "craftável"));
+    if (formula) esquerda.appendChild(criarElemento("small", "craft-formula", formula));
 
     item.append(esquerda, criarElemento("strong", "", valor));
     return item;
 }
 
-function criarSecaoCraft(titulo, linhas) {
-    const secao = criarElemento("div", "craft-secao");
+function criarSecaoCraft(titulo, linhas, classeExtra) {
+    const secao = criarElemento("div", classeExtra ? `craft-secao ${classeExtra}` : "craft-secao");
     secao.appendChild(criarElemento("h4", "craft-secao-titulo", titulo));
 
     const lista = criarElemento("ul", "craft-materiais");
@@ -358,25 +423,51 @@ function calcularCraftSelecionado() {
     });
     resultado.appendChild(resumo);
 
-    // Materiais que este craft pede
+    // Fórmula "(quantidade por craft × crafts)", só quando há mais de 1 craft
+    const formula = (porCraft, crafts) =>
+        crafts > 1 ? `(${formatarNumero(porCraft)} × ${formatarNumero(crafts)})` : "";
+
+    // 1) Materiais que este craft pede
     resultado.appendChild(criarSecaoCraft(
-        "Materiais necessários",
-        calculo.diretos.map(m => criarLinhaCraft(m.nome, formatarNumero(m.quantidade), m.craftavel))
+        `Materiais necessários (${craftAberto.nome})`,
+        calculo.diretos.map(m => criarLinhaCraft(
+            m.nome, formatarNumero(m.quantidade), m.craftavel, formula(m.porCraft, m.crafts)
+        ))
     ));
 
-    // Só mostra o detalhamento quando há algo craftável dentro
-    if (calculo.intermediarios.length > 0) {
+    // 2) Cada intermediário, com os materiais que ele consome
+    calculo.intermediarios.forEach(i => {
         resultado.appendChild(criarSecaoCraft(
-            "Crafts intermediários (produza antes)",
-            calculo.intermediarios.map(i => criarLinhaCraft(
-                i.nome,
-                `${formatarNumero(i.crafts)} craft${i.crafts > 1 ? "s" : ""} (gera ${formatarNumero(i.produzidas)})`
-            ))
+            `Intermediário: ${i.nome} × ${formatarNumero(i.precisa)} ` +
+            `(${formatarNumero(i.crafts)} craft${i.crafts > 1 ? "s" : ""}` +
+            `${i.produzidas !== i.precisa ? `, gera ${formatarNumero(i.produzidas)}` : ""})`,
+            i.materiais.map(m => criarLinhaCraft(
+                m.nome, formatarNumero(m.quantidade), m.craftavel, formula(m.porCraft, m.crafts)
+            )),
+            "craft-secao-intermediario"
         ));
+    });
 
+    // 3) Total de matéria-prima de tudo
+    resultado.appendChild(criarSecaoCraft(
+        "Total geral de matéria-prima",
+        calculo.totais.map(m => criarLinhaCraft(m.nome, formatarNumero(m.quantidade))),
+        "craft-secao-total"
+    ));
+
+    // 4) Valores (só se o produto tiver valor cadastrado)
+    const valores = calcularValoresDoCraft(craftAberto, quantidade);
+
+    if (valores.length > 0) {
         resultado.appendChild(criarSecaoCraft(
-            "Total em matérias-primas",
-            calculo.totais.map(m => criarLinhaCraft(m.nome, formatarNumero(m.quantidade)))
+            "Valores do produto",
+            valores.map(v => criarLinhaCraft(
+                v.tipo,
+                formatarDinheiro(v.total),
+                false,
+                `(${formatarDinheiro(v.unitario)} × ${formatarNumero(quantidade)})`
+            )),
+            "craft-secao-valores"
         ));
     }
 }

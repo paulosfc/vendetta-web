@@ -3,7 +3,6 @@
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarItens();
     carregarProdutosEncomenda();
     carregarFiltroProdutosEncomenda();
     carregarEncomendas();
@@ -12,6 +11,5 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarCategoriasCrafts();
     mostrarCrafts();
     carregarRotas();
-    carregarInvestigativa();
     carregarPerfil().then(verificarMigracao);
 });
