@@ -57,7 +57,7 @@ const PERIMETROS = [
 
     {
       nome: "Loja de Departamento Ballas / MegaMall",
-      imagem: "assets/perimetros/loja-ballas.webp",
+      imagem: "assets/perimetros/loja-ballas.jpg",
     },
 
     {
