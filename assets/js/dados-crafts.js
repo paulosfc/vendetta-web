@@ -1,29 +1,6 @@
 /* =========================================================
    DADOS DA ABA "CRAFTS"   <<< ESTE É O ARQUIVO QUE VOCÊ EDITA
 
-   No site esta aba é somente para consulta. Para mudar algo,
-   edite aqui, salve e publique de novo (GitHub -> Vercel).
-
-   COMO ADICIONAR UM CRAFT
-   Copie um bloco { ... } inteiro, cole logo abaixo (depois da
-   vírgula do bloco anterior) e troque os valores:
-
-     nome        nome que aparece no card
-     categoria   agrupa e filtra (use o mesmo texto para agrupar)
-     produz      quantas unidades saem de 1 craft
-     materiais   "Nome do material": quantidade,   (um por linha)
-     observacao  texto opcional (deixe "" se não quiser)
-
-   COMO REMOVER: apague o bloco { ... } inteiro, com a vírgula.
-
-   COMO O SITE CALCULA
-   Ao clicar num craft, a pessoa digita a quantidade desejada e o site
-   divide por "produz" (arredondando para cima) e multiplica os
-   "materiais". Se um material tem o MESMO NOME de outro craft da lista,
-   ele é tratado como craftável: o site mostra também os crafts
-   intermediários e o total em matérias-primas. Por isso escreva o nome
-   do material exatamente igual ao nome do craft.
-   Cuidado com aspas e vírgulas: toda linha termina com vírgula.
 ========================================================= */
 
 const CRAFTS = [
@@ -34,8 +11,8 @@ const CRAFTS = [
         materiais: {
             "M1911": 1,
             "Real Sujo": 1000,
-            "Parafusos Pequenos": 1,
-            "Caixa de Aperfeiçoamento: Pistola": 2,
+            // "Parafusos Pequenos": 1,
+            // "Caixa de Aperfeiçoamento: Pistola": 2,
         },
         observacao: ""
     },
@@ -47,6 +24,21 @@ const CRAFTS = [
         materiais: {
             "Real Sujo": 1000,
             "Peças de Arma Leve": 2,
+        },
+        observacao: ""
+    },
+    
+    {
+        nome: "M4A1",
+        categoria: "Armas",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 5000,
+            "Engrenagem": 10,
+            "Peças de Arma Pesada": 4,
+            "Tubo de Plástico": 10,
+            "Sucata de Metal": 7375,
+            "Parafusos Pequenos": 10,
         },
         observacao: ""
     },
@@ -131,7 +123,7 @@ const CRAFTS = [
 
     {
         nome: "Peças de Arma Leve",
-        categoria: "Peças e componentes",
+        categoria: "Peças e Componentes",
         produz: 1,
         materiais: {
             "Alumínio": 25,
@@ -141,6 +133,33 @@ const CRAFTS = [
             "Real Sujo": 1000,
             "Corpo de Pistola": 1,
             "Peças de Armas": 2,
+        },
+        observacao: ""
+    },
+    
+    {
+        nome: "Peças de Arma Pesada",
+        categoria: "Peças e Componentes",
+        produz: 1,
+        materiais: {
+            "Alumínio": 75,
+            "Cobre": 75,
+            "Real Sujo": 1000,
+            "Plástico": 125,
+            "Corpo de Rifle": 1,
+            "Borracha": 125,
+            "Peças de Armas": 2,
+        },
+        observacao: ""
+    },
+    
+    {
+        nome: "Corpo de Rifle",
+        categoria: "Peças e Componentes",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 1000,
+            "Peças de Armas": 6,
         },
         observacao: ""
     },
