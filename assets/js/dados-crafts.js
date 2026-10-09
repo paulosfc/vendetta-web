@@ -39,6 +39,7 @@ const CRAFTS = [
         },
         observacao: ""
     },
+    
     {
         nome: "M1911",
         categoria: "Armas",
@@ -49,6 +50,9 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
+
+
     {
         nome: "Munição de Fuzil",
         categoria: "Munições",
@@ -60,6 +64,7 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
     {
         nome: "Munição de Sub",
         categoria: "Munições",
@@ -71,6 +76,7 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
     {
         nome: "Munição de Pistola",
         categoria: "Munições",
@@ -82,6 +88,9 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
+
+
     {
         nome: "Estojo de Munição: Fuzil",
         categoria: "Estojos",
@@ -93,6 +102,7 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
     {
         nome: "Estojo de Munição: SUB",
         categoria: "Estojos",
@@ -104,6 +114,7 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
     {
         nome: "Estojo de Munição: Pistola",
         categoria: "Estojos",
@@ -115,6 +126,9 @@ const CRAFTS = [
         },
         observacao: ""
     },
+
+
+
     {
         nome: "Peças de Arma Leve",
         categoria: "Peças e componentes",

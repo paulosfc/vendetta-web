@@ -28,8 +28,8 @@
 
 const ROTAS = [
     {
-        nome: "Rota de exemplo",
-        imagem: "assets/rotas/exemplo.svg",
-        descricao: "Imagem de exemplo. Apague este bloco quando colocar as suas rotas."
+        nome: "Rota de Caixa Vermelha",
+        imagem: "assets/rotas/caixa-vermelha",
+        // descricao: "Imagem de exemplo. Apague este bloco quando colocar as suas rotas."
     },
 ];

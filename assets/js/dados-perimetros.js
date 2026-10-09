@@ -30,8 +30,8 @@
 
 const PERIMETROS = [
     {
-        nome: "Perímetro de exemplo",
-        imagem: "assets/perimetros/exemplo.svg",
-        descricao: "Imagem de exemplo. Apague este bloco quando colocar os seus perímetros."
+        nome: "Aeroporto do Norte",
+        imagem: "assets/perimetros/aeroporto-norte.png",
+        // descricao: "Imagem de exemplo. Apague este bloco quando colocar os seus perímetros."
     },
 ];
