@@ -29,7 +29,7 @@
 const ROTAS = [
     {
         nome: "Rota de Caixa Vermelha",
-        imagem: "assets/rotas/caixa-vermelha",
+        imagem: "assets/rotas/caixa-vermelha.png",
         // descricao: "Imagem de exemplo. Apague este bloco quando colocar as suas rotas."
     },
 ];
