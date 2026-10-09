@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="assets/css/crafts.css">
     <link rel="stylesheet" href="assets/css/crafts-calculo.css">
     <link rel="stylesheet" href="assets/css/rotas.css">
+    <link rel="stylesheet" href="assets/css/investigativa.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <script src="assets/js/config.js"></script>
     <script src="assets/js/auth.js"></script>
@@ -44,6 +45,9 @@
                 </button>
                 <button class="menu-btn" data-page="horario" onclick="mostrarPagina('horario', this)">
                     <span class="menu-icon">◷</span><span>Horário de Pista</span>
+                </button>
+                <button class="menu-btn" data-page="investigativa" onclick="mostrarPagina('investigativa', this)">
+                    <span class="menu-icon">◈</span><span>Investigativa</span>
                 </button>
             </nav>
             <div class="sidebar-bottom">
@@ -485,6 +489,25 @@
 
         </section>
 
+
+        <!-- ======================================
+             INVESTIGATIVA (leva a outro site; dados em dados-investigativa.js)
+        ======================================= -->
+
+        <section id="pagina-investigativa" class="pagina hidden">
+
+            <div class="page-title">
+                <span class="result-label">INVESTIGATIVA</span>
+                <h1>Investigativa</h1>
+                <p>Acesso ao site externo da Investigativa.</p>
+            </div>
+
+            <div class="card">
+                <div id="investigativaConteudo"></div>
+            </div>
+
+        </section>
+
     </main>
     <!-- ==========================================
          FOOTER
@@ -506,6 +529,8 @@
     <script src="assets/js/crafts.js"></script>
     <script src="assets/js/dados-rotas.js"></script>
     <script src="assets/js/rotas.js"></script>
+    <script src="assets/js/dados-investigativa.js"></script>
+    <script src="assets/js/investigativa.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/migracao.js"></script>
     <script src="assets/js/main.js"></script>

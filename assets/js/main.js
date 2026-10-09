@@ -11,5 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarCategoriasCrafts();
     mostrarCrafts();
     carregarRotas();
+    carregarInvestigativa();
     carregarPerfil().then(verificarMigracao);
 });

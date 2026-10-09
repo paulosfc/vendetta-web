@@ -22,7 +22,7 @@
 
 const INVESTIGATIVA = {
     nome: "Investigativa",
-    url: "https://vdttinvestigativa.lovable.app",
+    url: "https://vdttinvestigativa.lovable.app/",
     descricao: "",
     abrirEmNovaAba: true
 };

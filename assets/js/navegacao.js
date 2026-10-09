@@ -37,6 +37,10 @@ function mostrarPagina(pagina, botao) {
         carregarRotas();
     }
 
+    if (pagina === "investigativa") {
+        carregarInvestigativa();
+    }
+
     if (pagina === "horario") {
         atualizarHorarioPista();
     }
