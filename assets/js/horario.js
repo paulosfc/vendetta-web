@@ -188,7 +188,10 @@ function atualizarHorarioPista() {
 
 function iniciarTimerHorario() {
     if (timerHorario) clearInterval(timerHorario);
-    timerHorario = setInterval(atualizarHorarioPista, 500);
+    timerHorario = setInterval(() => {
+        const pagina = document.getElementById("pagina-horario");
+        if (!document.hidden && pagina && !pagina.classList.contains("hidden")) atualizarHorarioPista();
+    }, 500);
 }
 
 function limparHorarioPista() {

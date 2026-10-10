@@ -1,7 +1,9 @@
 /* =========================================================
    BANCO DE RECEITAS
 ========================================================= */
-let receitas = JSON.parse(localStorage.getItem("receitasCraft")) || {};
+// Receitas vêm só do código (antes ficavam presas no localStorage e JSON inválido quebrava tudo)
+try { localStorage.removeItem("receitasCraft"); } catch { /* ignora */ }
+let receitas = {};
 
 /* =========================================================
    VALORES DOS PRODUTOS
@@ -156,5 +158,5 @@ if (Object.keys(receitas).length === 0) {
    LOCAL STORAGE
 ========================================================= */
 function salvarLocalStorage() {
-    localStorage.setItem("receitasCraft", JSON.stringify(receitas));
+    // não grava mais: a fonte de verdade é este arquivo
 }

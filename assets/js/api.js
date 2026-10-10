@@ -56,9 +56,16 @@ async function fazerRequisicao(caminho, opcoes, token) {
 // Faz a chamada já autenticada. Se o token foi recusado (401),
 // tenta renovar uma vez; se ainda assim falhar, volta ao login.
 async function apiFetch(caminho, opcoes = {}) {
-    let token = await obterTokenValido();
+    let token = null;
+
+    try {
+        token = await obterTokenValido();
+    } catch {
+        throw new ErroApi("Sem conexão para renovar o login. Verifique a internet e tente de novo.", 0);
+    }
 
     if (!token) {
+        limparSessao(); // sem isto o login redirecionava de volta ao app em laço
         irParaLogin();
         throw new ErroApi("Sessão expirada. Entre novamente.", 401);
     }
@@ -172,6 +179,7 @@ async function chamarFuncaoDoBanco(nome) {
 }
 
 function aplicarPerfil() {
+    document.body.classList.remove("perfil-carregando");
     document.body.classList.toggle("somente-leitura", !perfilUsuario.podeEditar);
     document.body.dataset.papel = perfilUsuario.papel || "";
 
