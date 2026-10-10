@@ -59,6 +59,19 @@ const CRAFTS = [
         },
         observacao: ""
     },
+    
+    {
+        nome: "Tec - 9",
+        categoria: "Armas",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 2000,
+            "Peças de Arma Média": 4,
+            "Tubo de Plástico": 8,
+            "Sucata de Metal": 375,
+        },
+        observacao: ""
+    },
 
 
 
@@ -165,6 +178,22 @@ const CRAFTS = [
     },
     
     {
+        nome: "Peças de Arma Média",
+        categoria: "Peças e Componentes",
+        produz: 1,
+        materiais: {
+            "Alumínio": 30,
+            "Cobre": 30,
+            "Real Sujo": 1000,
+            "Vidro": 30,
+            "Borracha": 30,
+            "Corpo de Sub": 1,
+            "Peças de Armas": 1,
+        },
+        observacao: ""
+    },
+    
+    {
         nome: "Peças de Arma Pesada",
         categoria: "Peças e Componentes",
         produz: 1,
@@ -187,6 +216,37 @@ const CRAFTS = [
         materiais: {
             "Real Sujo": 1000,
             "Peças de Armas": 6,
+        },
+        observacao: ""
+    },
+
+
+    
+    {
+        nome: "Colete Balístico",
+        categoria: "Outros",
+        produz: 1,
+        materiais: {
+            "Real Sujo": 500,
+            "Placa Blindada": 2,
+            "Lona": 6,
+        },
+        observacao: ""
+    },
+
+    {
+        nome: "Placa Blindada",
+        categoria: "Outros",
+        produz: 1,
+        materiais: {
+            "Alumínio": 40,
+            "Cobre": 40,
+            "Real Sujo": 500,
+            "Vidro": 60,
+            "Plástico": 60,
+            "Placas de Trânsito": 1,
+            "Borracha": 65,
+            "Chapa de Metal": 2,
         },
         observacao: ""
     },
