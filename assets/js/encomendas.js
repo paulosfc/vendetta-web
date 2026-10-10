@@ -2,7 +2,7 @@
    ENCOMENDAS (guardadas no Supabase, tabela "encomendas")
 
    Depende de: api.js (banco)
-               dados.js (receitas, valoresPorProduto)
+               dados-crafts.js (via dados.js: receitas, valoresPorProduto)
                utils.js (formatarDinheiro, formatarNumero, escaparHtml)
 ========================================================= */
 

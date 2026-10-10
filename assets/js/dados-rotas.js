@@ -7,27 +7,27 @@
 const ROTAS = [
   {
     nome: "Rota de Caixa Vermelha",
-    imagem: "assets/rotas/caixa-vermelha.png",
+    imagem: "assets/rotas/caixa-vermelha.webp",
     // descricao: "..."
   },
 
   {
     nome: "Rota de Containers Sul",
-    imagem: "assets/rotas/containers-sul.png",
+    imagem: "assets/rotas/containers-sul.webp",
   },
 
   {
     nome: "Rota de Caixa Verde e Amarela - Parte 1",
-    imagem: "assets/rotas/rota-verde-amarela-1.png",
+    imagem: "assets/rotas/rota-verde-amarela-1.webp",
   },
 
   {
     nome: "Rota de Caixa Verde e Amarela - Parte 2",
-    imagem: "assets/rotas/rota-verde-amarela-2.png",
+    imagem: "assets/rotas/rota-verde-amarela-2.webp",
   },
 
   {
     nome: "Rota de Caixa Verde e Amarela - Parte 3",
-    imagem: "assets/rotas/rota-verde-amarela-3.png",
+    imagem: "assets/rotas/rota-verde-amarela-3.webp",
   },
 ];

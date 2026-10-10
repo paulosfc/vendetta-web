@@ -11,7 +11,7 @@
    os valores (quando o produto tiver valor cadastrado).
 
    Depende de: dados-crafts.js (CRAFTS)
-               dados.js (receitas, valoresPorProduto) - só para os valores
+               dados-crafts.js (via dados.js: receitas, valoresPorProduto) - só para os valores
                utils.js (formatarNumero, formatarDinheiro)
 ========================================================= */
 
@@ -276,14 +276,11 @@ function calcularMateriaisDoCraft(craft, quantidade) {
 /* =========================================================
    VALORES
 
-   Os valores continuam em dados.js (valoresPorProduto). Para um
-   craft ter valor, o nome dele precisa ser igual ao "nome" (ou à
-   chave) de um produto de dados.js. Também dá para colocar direto
-   no craft, em dados-crafts.js:
+   Os valores ficam em cada craft, em dados-crafts.js:
 
      valores: { CNPJ: 30000, CPF: 30000, Parceria: 26000, Aliado: 23000 },
 
-   Craft sem valor cadastrado não mostra a seção de valores.
+   Craft sem valores não mostra a seção de valores.
 ========================================================= */
 
 const TIPOS_DE_VALOR = ["CNPJ", "CPF", "Parceria", "Aliado"];
