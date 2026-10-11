@@ -214,7 +214,7 @@ const CRAFTS = [
     },
 
     {
-        nome: "Peças de Arma Leve.",
+        nome: "Peças de Arma Leve",
         chave: "PeçasLeve",
         categoria: "Peças e Componentes",
         produz: 1,
