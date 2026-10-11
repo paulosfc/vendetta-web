@@ -202,7 +202,7 @@ const CRAFTS = [
 
     
     {
-        nome: "Peças de Armas",
+        nome: "Peças de Armas.",
         categoria: "Peças e Componentes",
         produz: 1,
         materiais: {
@@ -214,7 +214,7 @@ const CRAFTS = [
     },
 
     {
-        nome: "Peças de Arma Leve",
+        nome: "Peças de Arma Leve.",
         chave: "PeçasLeve",
         categoria: "Peças e Componentes",
         produz: 1,
