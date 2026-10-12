@@ -21,8 +21,8 @@ img{max-width:100%}
 .page-title h1::after{content:"";display:block;width:48px;height:3px;margin-top:10px;border-radius:3px;background:linear-gradient(90deg,var(--orange),transparent)}
 
 /* botões */
-.btn-primary,#pagina-encomendas .btn-primary{background:linear-gradient(135deg,var(--orange),#ff9230);box-shadow:0 6px 18px rgba(255,122,0,.25)}
-.btn-primary:hover,#pagina-encomendas .btn-primary:hover{background:linear-gradient(135deg,#ff8a1f,var(--orange-light));box-shadow:0 8px 24px var(--orange-glow)}
+.btn-primary{background:linear-gradient(135deg,var(--orange),#ff9230);box-shadow:0 6px 18px rgba(255,122,0,.25)}
+.btn-primary:hover{background:linear-gradient(135deg,#ff8a1f,var(--orange-light));box-shadow:0 8px 24px var(--orange-glow)}
 .btn-primary:active,.btn-secondary:active,.menu-btn:active,.chip:active{transform:scale(.97)}
 
 /* sidebar */
@@ -31,20 +31,15 @@ img{max-width:100%}
 .sidebar .menu-btn:hover{padding-left:18px}
 .sidebar .menu-btn.active{background:linear-gradient(90deg,var(--orange),rgba(255,122,0,.7));box-shadow:0 6px 18px rgba(255,122,0,.22)}
 
-/* crafts / encomendas */
-.craft-card,.encomenda-card,#pagina-encomendas .encomenda-card{transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
+/* crafts */
+.craft-card{transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
 .craft-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.35),0 0 0 1px rgba(255,122,0,.35)}
 .craft-card:active{transform:translateY(-1px)}
-.craft-dica,.encomenda-id,.horario-base,.perimetro-viewer-header small{color:#9a9a9a}
+.craft-dica,.horario-base,.perimetro-viewer-header small{color:#9a9a9a}
 .crafts-filtros{grid-template-columns:1fr}
 .crafts-filtros .form-group:nth-child(2){display:none}
-.crafts-grid,.encomendas-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.crafts-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
 .craft-materiais li span{min-width:0;overflow-wrap:anywhere}
-@media(min-width:381px){.encomenda-actions,#pagina-encomendas .encomenda-actions{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:769px){#pagina-encomendas .encomendas-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-#pagina-encomendas .stat-card{cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
-#pagina-encomendas .stat-card:hover{border-color:rgba(255,122,0,.5);transform:translateY(-2px)}
-#pagina-encomendas .stat-card.ativo{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange) inset}
 
 /* chips */
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
@@ -55,8 +50,8 @@ img{max-width:100%}
 .craft-copiar{width:auto;margin-top:18px}
 
 /* modais */
-.craft-modal-overlay,#pagina-encomendas .modal-overlay,.perimetro-lightbox{backdrop-filter:blur(6px);animation:fade .2s ease}
-.craft-modal,#pagina-encomendas .modal-card{animation:pop .25s var(--ease)}
+.craft-modal-overlay,.perimetro-lightbox{backdrop-filter:blur(6px);animation:fade .2s ease}
+.craft-modal{animation:pop .25s var(--ease)}
 .craft-modal{max-height:90vh;max-height:90dvh}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}

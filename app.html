@@ -51,10 +51,6 @@
                     <span class="menu-icon">▤</span><span>Crafts</span>
                 </button>
 
-                <button class="menu-btn" data-page="encomendas" onclick="mostrarPagina('encomendas', this)">
-                    <span class="menu-icon">▣</span><span>Encomendas</span>
-                </button>
-
                 <button class="menu-btn" data-page="perimetros" onclick="mostrarPagina('perimetros', this)">
                     <span class="menu-icon">◎</span><span>Perímetros</span>
                 </button>
@@ -65,6 +61,10 @@
 
                 <button class="menu-btn" data-page="horario" onclick="mostrarPagina('horario', this)">
                     <span class="menu-icon">◷</span><span>Horário de Pista</span>
+                </button>
+
+                <button class="menu-btn" data-page="encomendas" onclick="mostrarPagina('encomendas', this)">
+                    <span class="menu-icon">▣</span><span>Encomendas</span>
                 </button>
 
                 <button class="menu-btn" data-page="investigativa" onclick="mostrarPagina('investigativa', this)">
@@ -90,245 +90,21 @@
 
             <main class="container">
 
-                <!-- AVISO: dados antigos salvos só neste navegador -->
-                <div id="avisoMigracao" class="aviso-app so-editor hidden">
+                <!-- ENCOMENDAS (leva a outro site; dados em dados-encomendas.js) -->
 
-                    <div>
-                        <strong>Dados antigos encontrados neste navegador</strong>
-                        <p id="avisoMigracaoTexto"></p>
-                    </div>
-
-                    <div class="aviso-app-acoes">
-
-                        <button type="button" id="btnMigrar" class="btn-primary" onclick="executarMigracao()">Enviar
-                            para o banco</button>
-                        <button type="button" class="btn-secondary" onclick="dispensarMigracao()">Agora não</button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ENCOMENDAS  -->
                 <section id="pagina-encomendas" class="pagina hidden">
 
-                    <div class="page-header">
+                    <div class="page-title">
 
-                        <div>
-
-                            <span class="section-label">
-                                ENCOMENDAS
-                            </span>
-
-                            <h1>
-                                Gerenciamento de Encomendas
-                            </h1>
-
-                            <p>
-                                Crie e acompanhe as encomendas dos produtos.
-                            </p>
-
-                        </div>
-
-                        <button type="button" class="btn-primary so-editor" onclick="abrirModalEncomenda()">
-                            + Nova Encomenda
-                        </button>
+                        <span class="result-label">ENCOMENDAS</span>
+                        <h1>Encomendas</h1>
+                        <p>Acesso ao site externo das Encomendas.</p>
 
                     </div>
 
+                    <div class="card">
 
-                    <!-- ESTATISTICAS -->
-                    <div class="encomendas-stats">
-
-                        <div class="stat-card">
-
-                            <span class="stat-icon">📦</span>
-                            <div>
-
-                                <small>Total</small>
-                                <strong id="totalEncomendas">0</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="stat-card">
-                            <span class="stat-icon">🟠</span>
-                            <div>
-
-                                <small>Pendentes</small>
-                                <strong id="encomendasPendentes">0</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="stat-card">
-
-                            <span class="stat-icon">🟢</span>
-                            <div>
-
-                                <small>Concluídas</small>
-                                <strong id="encomendasConcluidas">0</strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- FILTROS  -->
-                    <div class="card encomendas-filtros">
-
-                        <div class="input-group">
-
-                            <label for="pesquisaEncomenda">Pesquisar</label>
-                            <input type="text" id="pesquisaEncomenda" placeholder="Produto ou cliente..."
-                                oninput="mostrarEncomendas()">
-
-                        </div>
-
-                        <div class="input-group">
-
-                            <label for="filtroProdutoEncomenda">Produto</label>
-                            <select id="filtroProdutoEncomenda" onchange="mostrarEncomendas()">
-
-                                <option value="">Todos os produtos</option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="input-group">
-
-                            <label for="filtroStatusEncomenda">Status</label>
-                            <select id="filtroStatusEncomenda" onchange="mostrarEncomendas()">
-
-                                <option value="">Todos</option>
-                                <option value="Pendente">Pendentes</option>
-                                <option value="Concluída">Concluídas</option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                    <!-- CARREGANDO / ERRO -->
-                    <div id="encomendasAviso" class="aviso-lista hidden"></div>
-                    <!-- LISTA -->
-                    <div id="listaEncomendas" class="encomendas-grid"></div>
-                    <!-- VAZIO  -->
-                    <div id="encomendasVazio" class="card empty-state hidden">
-
-                        <span>📦</span>
-                        <h3>Nenhuma encomenda encontrada</h3>
-                        <p>Crie uma nova encomenda para começar.</p>
-
-                    </div>
-
-
-                    <!-- MODAL DE ENCOMENDAS -->
-
-                    <div id="modalEncomenda" class="modal-overlay hidden">
-
-                        <div class="modal-card">
-
-                            <!-- CABEÇALHO -->
-                            <div class="modal-header">
-
-                                <div>
-
-                                    <span class="section-label">ENCOMENDAS</span>
-                                    <h2 id="modalEncomendaTitulo">Nova Encomenda</h2>
-
-                                </div>
-
-                                <button type="button" class="modal-close" onclick="fecharModalEncomenda()">×</button>
-
-                            </div>
-
-
-                            <!-- FORMULÁRIO -->
-                            <form id="formEncomenda" onsubmit="salvarEncomenda(event)">
-
-                                <input type="hidden" id="encomendaId">
-
-                                <!-- CAMPOS -->
-                                <div class="form-grid">
-
-                                    <!-- PRODUTO -->
-                                    <div class="input-group">
-
-                                        <label for="encomendaProduto">Produto</label>
-                                        <select id="encomendaProduto" onchange="atualizarValorEncomenda()" required>
-
-                                            <option value="">Selecione um produto</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    <!-- QUANTIDADE -->
-                                    <div class="input-group">
-
-                                        <label for="encomendaQuantidade"> Quantidade</label>
-                                        <input type="number" id="encomendaQuantidade" min="1" value="1"
-                                            oninput="atualizarValorEncomenda()" required>
-
-                                    </div>
-
-                                    <!-- TIPO -->
-                                    <div class="input-group">
-
-                                        <label for="encomendaTipo">Tipo de Cliente</label>
-                                        <select id="encomendaTipo" onchange="atualizarValorEncomenda()" required>
-
-                                            <option value="CNPJ">CNPJ</option>
-                                            <option value="CPF">CPF</option>
-                                            <option value="Parceria">Parceria</option>
-                                            <option value="Aliado">Aliado</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    <!-- CLIENTE -->
-                                    <div class="input-group">
-
-                                        <label for="encomendaCliente">Cliente</label>
-                                        <input type="text" id="encomendaCliente" placeholder="Nome do Cliente...">
-
-                                    </div>
-
-                                </div>
-
-                                <!-- VALOR -->
-                                <div id="valorEncomendaPreview" class="valor-encomenda-preview">Selecione um produto
-                                </div>
-
-                                <!-- OBSERVAÇÕES -->
-                                <div class="input-group">
-
-                                    <label for="encomendaObservacoes">Observações</label>
-                                    <textarea id="encomendaObservacoes" rows="4"
-                                        placeholder="Observações da encomenda..."></textarea>
-
-                                </div>
-
-                                <!-- BOTÕES -->
-                                <div class="modal-actions">
-
-                                    <button type="button" class="btn-secondary"
-                                        onclick="fecharModalEncomenda()">Cancelar</button>
-                                    <button type="submit" class="btn-primary">Salvar Encomenda</button>
-
-                                </div>
-
-                            </form>
-
-                        </div>
+                        <div id="encomendasConteudo"></div>
 
                     </div>
 
@@ -663,6 +439,7 @@
     <script src="assets/js/dados.js"></script>
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/navegacao.js"></script>
+    <script src="assets/js/dados-encomendas.js"></script>
     <script src="assets/js/encomendas.js"></script>
     <script src="assets/js/dados-perimetros.js"></script>
     <script src="assets/js/perimetros.js"></script>
@@ -673,7 +450,6 @@
     <script src="assets/js/dados-investigativa.js"></script>
     <script src="assets/js/investigativa.js"></script>
     <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/migracao.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/interativo.js"></script>
 

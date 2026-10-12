@@ -1,8 +1,8 @@
 /* =========================================================
    GERADO AUTOMATICAMENTE a partir de dados-crafts.js  -  NÃO EDITE AQUI
 
-   Mantém o formato antigo (receitas e valoresPorProduto) usado pelas
-   Encomendas. Para mudar receitas, nomes ou valores, edite dados-crafts.js.
+   Mantém o formato antigo (receitas e valoresPorProduto) usado pelos
+   valores dos Crafts. Para mudar receitas, nomes ou valores, edite dados-crafts.js.
    Precisa ser carregado DEPOIS de dados-crafts.js.
 ========================================================= */
 try { localStorage.removeItem("receitasCraft"); } catch { /* ignora */ }

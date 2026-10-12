@@ -1,8 +1,8 @@
 /* =========================================================
    DADOS DE CRAFTS E PRODUTOS   <<< ÚNICO ARQUIVO QUE VOCÊ EDITA
 
-   Aqui ficam as receitas, as categorias e os valores. A aba Crafts e
-   a aba Encomendas leem tudo daqui (o dados.js é gerado a partir deste).
+   Aqui ficam as receitas, as categorias e os valores. A aba Crafts
+   lê tudo daqui (o dados.js é gerado a partir deste).
 
    Campos de cada craft:
      nome       nome exibido
@@ -11,7 +11,7 @@
      materiais  { "Material": quantidade }
      valores    (opcional) { CNPJ, CPF, Parceria, Aliado }; sem isso não
                 mostra valores
-     chave      (opcional) código usado nas encomendas já salvas no banco.
+     chave      (opcional) código interno do craft (usado para ligar o craft ao seu valor).
                 NÃO mude a chave de um craft existente. Em crafts novos
                 pode deixar sem: é criada sozinha a partir do nome.
 ========================================================= */
@@ -20,7 +20,7 @@ const CRAFTS = [
     {
         nome: "FN Five Seven",
         chave: "Five",
-        valores: { CNPJ: 45000, CPF: 45000, Parceria: 35000, Aliado: 35000 },
+        // valores: { CNPJ: 45000, CPF: 45000, Parceria: 39000, Aliado: 35000 },
         categoria: "Armas",
         produz: 1,
         materiais: {
@@ -35,7 +35,7 @@ const CRAFTS = [
     {
         nome: "M1911",
         chave: "M1911",
-        valores: { CNPJ: 30000, CPF: 30000, Parceria: 26000, Aliado: 23000 },
+        // valores: { CNPJ: 30000, CPF: 30000, Parceria: 26000, Aliado: 23000 },
         categoria: "Armas",
         produz: 1,
         materiais: {
@@ -119,7 +119,7 @@ const CRAFTS = [
     {
         nome: "Munição de Fuzil",
         chave: "MuniFuzil",
-        valores: { CNPJ: 165, CPF: 165, Parceria: 143, Aliado: 143 },
+        // valores: { CNPJ: 165, CPF: 165, Parceria: 143, Aliado: 127 },
         categoria: "Munições",
         produz: 250,
         materiais: {
@@ -133,7 +133,7 @@ const CRAFTS = [
     {
         nome: "Munição de Sub",
         chave: "MuniSub",
-        valores: { CNPJ: 120, CPF: 120, Parceria: 108, Aliado: 108 },
+        // valores: { CNPJ: 120, CPF: 120, Parceria: 108, Aliado: 92 },
         categoria: "Munições",
         produz: 250,
         materiais: {
@@ -147,7 +147,7 @@ const CRAFTS = [
     {
         nome: "Munição de Pistola",
         chave: "MuniPistola",
-        valores: { CNPJ: 90, CPF: 90, Parceria: 78, Aliado: 78 },
+        // valores: { CNPJ: 90, CPF: 90, Parceria: 78, Aliado: 69 },
         categoria: "Munições",
         produz: 250,
         materiais: {
@@ -263,7 +263,7 @@ const CRAFTS = [
     },
     
     {
-        nome: "Corpo de Pistola",
+        nome: "Corpo de Pistola.",
         categoria: "Peças e Componentes",
         produz: 1,
         materiais: {

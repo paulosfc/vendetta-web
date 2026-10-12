@@ -183,39 +183,12 @@
         });
     }
 
-    /* ---------- encomendas: cartões de estatística filtram a lista ---------- */
-    function iniciarEstatisticas() {
-        const mapa = { totalEncomendas: "", encomendasPendentes: "Pendente", encomendasConcluidas: "Concluída" };
-        const filtro = $("#filtroStatusEncomenda");
-        if (!filtro) return;
-
-        const marcar = () => Object.entries(mapa).forEach(([id, status]) => {
-            const card = document.getElementById(id)?.closest(".stat-card");
-            if (card) card.classList.toggle("ativo", filtro.value !== "" && filtro.value === status);
-        });
-
-        Object.entries(mapa).forEach(([id, status]) => {
-            const card = document.getElementById(id)?.closest(".stat-card");
-            if (!card) return;
-            const aplicar = () => { filtro.value = status; mostrarEncomendas(); marcar(); };
-            card.tabIndex = 0;
-            card.setAttribute("role", "button");
-            card.title = "Clique para filtrar";
-            card.addEventListener("click", aplicar);
-            card.addEventListener("keydown", e => {
-                if (e.key === "Enter" || e.key === " ") { e.preventDefault(); aplicar(); }
-            });
-        });
-        filtro.addEventListener("change", marcar);
-    }
-
     /* ---------- início (depois do main.js) ---------- */
     document.addEventListener("DOMContentLoaded", () => {
         chips();
         const sel = $("#filtroCategoriaCraft");
         if (sel) sel.addEventListener("change", chips);
         iniciarGalerias();
-        iniciarEstatisticas();
         const inicial = location.hash.slice(1);
         if (inicial && inicial !== "crafts") ir(inicial, false);
         else { const b = $('.menu-btn[data-page="crafts"]'); if (b) b.setAttribute("aria-current", "page"); }

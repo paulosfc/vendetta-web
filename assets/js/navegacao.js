@@ -20,9 +20,7 @@ function mostrarPagina(pagina, botao) {
 
     // Ações específicas de cada página
     if (pagina === "encomendas") {
-        carregarProdutosEncomenda();
-        carregarFiltroProdutosEncomenda();
-        carregarEncomendas(); // busca de novo no banco: outras pessoas podem ter alterado
+        carregarEncomendas();
     }
 
     if (pagina === "perimetros") {

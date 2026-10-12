@@ -3,8 +3,6 @@
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    carregarProdutosEncomenda();
-    carregarFiltroProdutosEncomenda();
     carregarEncomendas();
     carregarPerimetros();
     iniciarHorarioPista();
@@ -12,5 +10,5 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarCrafts();
     carregarRotas();
     carregarInvestigativa();
-    carregarPerfil().then(verificarMigracao);
+    carregarPerfil();
 });
