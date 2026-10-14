@@ -54,11 +54,13 @@ const PERIMETROS = [
     descricao: "Categoria: Ação Média \nArmamento: Armamento Pesado \nBandidos: Min. 6 | Máx. 8 \nPoliciais: Min. 9 | Máx. 11",
   },
 
-  {
-    nome: "Madeireira",
-    imagem: "assets/perimetros/madeireira.webp",
-    descricao: "Categoria: Ação Média \nArmamento: Pistolas ou Tec - 9 \nBandidos: Min. 8 | Máx. 8 \nPoliciais: Min. 10 | Máx. 10",
-  },
+  // Madeireira desativada: falta o arquivo assets/perimetros/madeireira.webp.
+  // Envie a imagem para essa pasta e remova as barras "//" abaixo para reativar.
+  // {
+  //   nome: "Madeireira",
+  //   imagem: "assets/perimetros/madeireira.webp",
+  //   descricao: "Categoria: Ação Média \nArmamento: Pistolas ou Tec - 9 \nBandidos: Min. 8 | Máx. 8 \nPoliciais: Min. 10 | Máx. 10",
+  // },
   
   {
     nome: "Zancudo",

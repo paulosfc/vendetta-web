@@ -24,10 +24,13 @@
     window.alert = m => toast(String(m), /não foi possível|não enviad|erro|selecione|digite|informe/i.test(m) ? "erro" : "ok");
 
     /* ---------- navegação: URL (#aba), botão voltar, título ---------- */
-    const titulos = { crafts: "Crafts", encomendas: "Encomendas", perimetros: "Perímetros", rotas: "Rotas", horario: "Horário de Pista", investigativa: "Investigativa" };
+    const titulos = { crafts: "Crafts", sites: "Sites Externos", perimetros: "Perímetros", rotas: "Rotas", horario: "Horário de Pista" };
+    // endereços antigos (#encomendas e #investigativa) agora levam para a aba Sites Externos
+    const apelidos = { encomendas: "sites", investigativa: "sites" };
     const original = window.mostrarPagina;
 
     function ir(pagina, empurrar) {
+        pagina = apelidos[pagina] || pagina;
         if (!document.getElementById("pagina-" + pagina)) pagina = "crafts";
         const botao = $(`.menu-btn[data-page="${pagina}"]`);
         original(pagina, botao);
@@ -186,6 +189,9 @@
     /* ---------- início (depois do main.js) ---------- */
     document.addEventListener("DOMContentLoaded", () => {
         chips();
+        // arrastar texto de dentro da janela e soltar fora não deve fechá-la
+        const fundo = $("#craftModal");
+        if (fundo) fundo.addEventListener("mousedown", e => { desceuDentro = e.target !== fundo; });
         const sel = $("#filtroCategoriaCraft");
         if (sel) sel.addEventListener("change", chips);
         iniciarGalerias();

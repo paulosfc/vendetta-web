@@ -19,10 +19,6 @@ function mostrarPagina(pagina, botao) {
     if (botao) botao.classList.add("active");
 
     // Ações específicas de cada página
-    if (pagina === "encomendas") {
-        carregarEncomendas();
-    }
-
     if (pagina === "perimetros") {
         carregarPerimetros();
     }
@@ -35,8 +31,8 @@ function mostrarPagina(pagina, botao) {
         carregarRotas();
     }
 
-    if (pagina === "investigativa") {
-        carregarInvestigativa();
+    if (pagina === "sites") {
+        carregarSitesExternos();
     }
 
     if (pagina === "horario") {

@@ -202,7 +202,7 @@ const CRAFTS = [
 
     
     {
-        nome: "Peças de Armas.",
+        nome: "Peças de Armas",
         categoria: "Peças e Componentes",
         produz: 1,
         materiais: {
@@ -263,7 +263,7 @@ const CRAFTS = [
     },
     
     {
-        nome: "Corpo de Pistola.",
+        nome: "Corpo de Pistola",
         categoria: "Peças e Componentes",
         produz: 1,
         materiais: {
@@ -533,7 +533,7 @@ const CRAFTS = [
         categoria: "Lester",
         produz: 1,
         materiais: {
-            "Placas de Trânstio": 1,
+            "Placas de Trânsito": 1,
             "Fita Adesiva": 1,
             "Chapa de Metal": 2,
         },

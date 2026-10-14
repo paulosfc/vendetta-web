@@ -11,13 +11,12 @@
     <title>Vendetta WEB</title>
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/encomendas.css">
     <link rel="stylesheet" href="assets/css/perimetros.css">
     <link rel="stylesheet" href="assets/css/horario.css">
     <link rel="stylesheet" href="assets/css/crafts.css">
     <link rel="stylesheet" href="assets/css/crafts-calculo.css">
     <link rel="stylesheet" href="assets/css/rotas.css">
-    <link rel="stylesheet" href="assets/css/investigativa.css">
+    <link rel="stylesheet" href="assets/css/sites-externos.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/melhorias.css">
     <script src="assets/js/config.js"></script>
@@ -63,12 +62,8 @@
                     <span class="menu-icon">◷</span><span>Horário de Pista</span>
                 </button>
 
-                <button class="menu-btn" data-page="encomendas" onclick="mostrarPagina('encomendas', this)">
-                    <span class="menu-icon">▣</span><span>Encomendas</span>
-                </button>
-
-                <button class="menu-btn" data-page="investigativa" onclick="mostrarPagina('investigativa', this)">
-                    <span class="menu-icon">◈</span><span>Investigativa</span>
+                <button class="menu-btn" data-page="sites" onclick="mostrarPagina('sites', this)">
+                    <span class="menu-icon">↗</span><span>Sites Externos</span>
                 </button>
 
             </nav>
@@ -89,28 +84,6 @@
             </header>
 
             <main class="container">
-
-                <!-- ENCOMENDAS (leva a outro site; dados em dados-encomendas.js) -->
-
-                <section id="pagina-encomendas" class="pagina hidden">
-
-                    <div class="page-title">
-
-                        <span class="result-label">ENCOMENDAS</span>
-                        <h1>Encomendas</h1>
-                        <p>Acesso ao site externo das Encomendas.</p>
-
-                    </div>
-
-                    <div class="card">
-
-                        <div id="encomendasConteudo"></div>
-
-                    </div>
-
-                </section>
-
-
 
                 <!-- PERÍMETROS (somente visualização; dados em dados-perimetros.js) -->
 
@@ -393,23 +366,27 @@
                 </section>
 
 
-                <!-- INVESTIGATIVA (leva a outro site; dados em dados-investigativa.js) -->
+                <!-- SITES EXTERNOS (dados em dados-sites-externos.js) -->
 
-                <section id="pagina-investigativa" class="pagina hidden">
+                <section id="pagina-sites" class="pagina hidden">
 
                     <div class="page-title">
 
-                        <span class="result-label">INVESTIGATIVA</span>
-                        <h1>Investigativa</h1>
-                        <p>Acesso ao site externo da Investigativa.</p>
+                        <span class="result-label">SITES EXTERNOS</span>
+                        <h1>Sites Externos</h1>
+                        <p>Escolha um local e clique no botão ou no link para abrir o site.</p>
 
                     </div>
 
-                    <div class="card">
+                    <div class="sites-aviso" role="note">
 
-                        <div id="investigativaConteudo"></div>
+                        <span class="sites-aviso-icone">↗</span>
+                        <span><strong>Você será direcionado para outro site.</strong> Ao clicar, você sai do Vendetta WEB.
+                            O Vendetta WEB não controla o conteúdo desses sites nem o que você digitar neles.</span>
 
                     </div>
+
+                    <div id="sitesExternosConteudo" class="sites-grid"></div>
 
                 </section>
 
@@ -439,16 +416,14 @@
     <script src="assets/js/dados.js"></script>
     <script src="assets/js/utils.js"></script>
     <script src="assets/js/navegacao.js"></script>
-    <script src="assets/js/dados-encomendas.js"></script>
-    <script src="assets/js/encomendas.js"></script>
     <script src="assets/js/dados-perimetros.js"></script>
     <script src="assets/js/perimetros.js"></script>
     <script src="assets/js/horario.js"></script>
     <script src="assets/js/crafts.js"></script>
     <script src="assets/js/dados-rotas.js"></script>
     <script src="assets/js/rotas.js"></script>
-    <script src="assets/js/dados-investigativa.js"></script>
-    <script src="assets/js/investigativa.js"></script>
+    <script src="assets/js/dados-sites-externos.js"></script>
+    <script src="assets/js/sites-externos.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/interativo.js"></script>
